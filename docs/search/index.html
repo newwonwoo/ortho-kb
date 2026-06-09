@@ -1181,9 +1181,7 @@ async function handleSearch(q) {
   const exerciseContraindication = detectExerciseContraindication(norm.normalized, intents);
   // 4d) Sprint 13 W4 — 인구학 맥락 감지 (위험인자 정보 카드)
   const demographic = detectDemographicContext(norm.normalized);
-  // 4e) Sprint 14 — 운동 카탈로그 감지 (운동명별 부위·금기 카드)
-  const exerciseCatalog = detectExerciseCatalog(norm.normalized);
-  // 4e) Sprint 14 Step 3 — 운동 일반 카탈로그
+  // 4e) Sprint 14 — 운동 카탈로그 감지 (운동명별 부위·금기 + 운동 일반)
   const exerciseCatalog = detectExerciseCatalog(norm.normalized);
 
   // 5) 확장 쿼리로 검색 (원본 + 확장 토큰 모두 + 시간 단계)
@@ -1210,7 +1208,6 @@ async function handleSearch(q) {
     drugCompare,
     exerciseContraindication,
     demographic,
-    exerciseCatalog,
     exerciseCatalog,
     redFlag,
     drugHit,

@@ -1068,10 +1068,31 @@ function addBot(ctx) {
     { key: 'surgery', label: '🔪 수술 적응증', cls: 'card-gray' },
   ];
 
+  // intent 필터 (chat UI에서 ?intent= 파라미터로 전달)
+  // 안전상 emergency는 항상 노출 (선택 안 했어도)
+  const intentFilter = window.__INTENT_FILTER || [];
+  const filteredCardSpec = intentFilter.length > 0
+    ? cardSpec.filter(s => s.key === 'emergency' || intentFilter.includes(s.key))
+    : cardSpec;
+
+  // 필터 적용 시 사용자에게 안내 표시
+  if (intentFilter.length > 0) {
+    const intentLabels = intentFilter.map(i => {
+      const spec = cardSpec.find(s => s.key === i);
+      return spec ? spec.label.replace(/^[^\s]+\s/, '') : i;
+    }).join(', ');
+    html += `<div class="card" style="background:#eff6ff;border:1px solid #bfdbfe;margin-bottom:12px;">
+      <div class="card-body" style="font-size:13px;color:#1e40af;padding:10px 14px;">
+        💡 선택하신 관심 영역: <strong>${intentLabels}</strong> + 응급 신호 (안전상 항상 표시)
+        <a href="?q=${encodeURIComponent(query)}" style="margin-left:8px;color:#3b82f6;">전체 보기</a>
+      </div>
+    </div>`;
+  }
+
   if (!results.length) {
     html += `<div class="card card-gray"><div class="card-body">"${escapeHTML(query)}"에 대한 결과를 찾지 못했습니다.</div></div>`;
   } else {
-    for (const spec of cardSpec) {
+    for (const spec of filteredCardSpec) {
       const items = byIntent[spec.key] || [];
       if (!items.length) continue;
       html += `<div class="card ${spec.cls}">
@@ -1150,6 +1171,19 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   await handleSearch(qInput.value.trim());
 });
+
+// URL ?q= 파라미터로 진입 시 자동 검색 (chat UI에서 redirect 받음)
+// URL ?intent=diagnosis,exercise 형태로 결과 필터링도 지원
+const urlParams = new URLSearchParams(window.location.search);
+const queryFromUrl = urlParams.get('q');
+const intentsFromUrl = (urlParams.get('intent') || '').split(',').map(s => s.trim()).filter(Boolean);
+window.__INTENT_FILTER = intentsFromUrl;  // 전역 노출 — 결과 렌더링 시 참조
+if (queryFromUrl) {
+  // 인덱스 로딩 후 자동 검색
+  LOADING.then(() => {
+    setTimeout(() => handleSearch(queryFromUrl), 100);
+  });
+}
 
 // chip 클릭 시 빠른 검색
 document.querySelectorAll('.quick-chip').forEach(btn => {

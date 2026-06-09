@@ -1,0 +1,1101 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "ortho-kb 운동 도메인 회귀 100개 시나리오. 재활 단계·금기·SVG 도해·환자 자연어 모두 커버.",
+    "categories": [
+      "exercise_basic",
+      "exercise_stage_acute",
+      "exercise_stage_subacute",
+      "exercise_stage_chronic",
+      "exercise_contraindication",
+      "exercise_safe_alternative",
+      "exercise_specific_movement",
+      "exercise_return_to_sport",
+      "exercise_patient_natural",
+      "exercise_red_flag"
+    ]
+  },
+  "tests": [
+    {
+      "id": "E-001",
+      "category": "exercise_basic",
+      "query": "어깨 운동",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-002",
+      "category": "exercise_basic",
+      "query": "무릎 운동",
+      "expected": {
+        "slug": "knee"
+      }
+    },
+    {
+      "id": "E-003",
+      "category": "exercise_basic",
+      "query": "발목 운동",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "운동",
+          "발목"
+        ]
+      }
+    },
+    {
+      "id": "E-004",
+      "category": "exercise_basic",
+      "query": "발바닥 운동",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "급성기"
+        ]
+      }
+    },
+    {
+      "id": "E-005",
+      "category": "exercise_basic",
+      "query": "손목 운동",
+      "expected": {
+        "slug": "wrist"
+      }
+    },
+    {
+      "id": "E-006",
+      "category": "exercise_basic",
+      "query": "허리 운동",
+      "expected": {
+        "slug": "lowback"
+      }
+    },
+    {
+      "id": "E-007",
+      "category": "exercise_basic",
+      "query": "스트레칭",
+      "expected": {
+        "any_result_heading_contains": [
+          "운동"
+        ]
+      }
+    },
+    {
+      "id": "E-008",
+      "category": "exercise_basic",
+      "query": "재활 운동",
+      "expected": {
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-009",
+      "category": "exercise_basic",
+      "query": "근력 운동",
+      "expected": {
+        "any_result_heading_contains": [
+          "근력"
+        ]
+      }
+    },
+    {
+      "id": "E-010",
+      "category": "exercise_basic",
+      "query": "체조",
+      "expected": {
+        "any_result_heading_contains": [
+          "운동"
+        ]
+      }
+    },
+    {
+      "id": "E-011",
+      "category": "exercise_stage_acute",
+      "query": "어깨 다친 직후 운동",
+      "expected": {
+        "slug": "shoulder",
+        "time_stage": "trauma",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-012",
+      "category": "exercise_stage_acute",
+      "query": "오늘 다친 무릎 운동",
+      "expected": {
+        "slug": "knee",
+        "time_stage": "trauma"
+      }
+    },
+    {
+      "id": "E-013",
+      "category": "exercise_stage_acute",
+      "query": "1주 됐는데 발목 운동",
+      "expected": {
+        "slug": "ankle",
+        "time_stage": "acute",
+        "any_result_heading_contains": [
+          "급성기"
+        ]
+      }
+    },
+    {
+      "id": "E-014",
+      "category": "exercise_stage_acute",
+      "query": "어깨 1단계 운동",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-015",
+      "category": "exercise_stage_acute",
+      "query": "어깨 진자운동",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "진자운동"
+        ]
+      }
+    },
+    {
+      "id": "E-016",
+      "category": "exercise_stage_acute",
+      "query": "Codman pendulum",
+      "expected": {
+        "slug": "shoulder",
+        "top1_heading_contains": "진자운동",
+        "any_result_heading_contains": [
+          "진자운동"
+        ]
+      }
+    },
+    {
+      "id": "E-017",
+      "category": "exercise_stage_acute",
+      "query": "어제 다쳤어 어떤 운동",
+      "expected": {
+        "any_result_heading_contains": [
+          "운동"
+        ]
+      }
+    },
+    {
+      "id": "E-018",
+      "category": "exercise_stage_acute",
+      "query": "갑자기 아파요 운동",
+      "expected": {
+        "any_result_heading_contains": [
+          "운동"
+        ]
+      }
+    },
+    {
+      "id": "E-019",
+      "category": "exercise_stage_acute",
+      "query": "급성기 무릎 운동",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "급성기"
+        ]
+      }
+    },
+    {
+      "id": "E-020",
+      "category": "exercise_stage_acute",
+      "query": "발목 삔 직후 운동",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "운동"
+        ]
+      }
+    },
+    {
+      "id": "E-021",
+      "category": "exercise_stage_subacute",
+      "query": "어깨 2주 됐어요 운동",
+      "expected": {
+        "slug": "shoulder",
+        "time_stage": "subacute",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-022",
+      "category": "exercise_stage_subacute",
+      "query": "무릎 3주째 운동",
+      "expected": {
+        "slug": "knee",
+        "time_stage": "subacute",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-023",
+      "category": "exercise_stage_subacute",
+      "query": "허리 한달 됐는데 운동",
+      "expected": {
+        "slug": "lowback",
+        "time_stage": "subacute",
+        "any_result_heading_contains": [
+          "점진적"
+        ]
+      }
+    },
+    {
+      "id": "E-024",
+      "category": "exercise_stage_subacute",
+      "query": "어깨 2단계 운동",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-025",
+      "category": "exercise_stage_subacute",
+      "query": "ROM 회복 운동",
+      "expected": {
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-026",
+      "category": "exercise_stage_subacute",
+      "query": "수동 ROM",
+      "expected": {
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-027",
+      "category": "exercise_stage_subacute",
+      "query": "Wand exercise",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-028",
+      "category": "exercise_stage_subacute",
+      "query": "막대운동",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-029",
+      "category": "exercise_stage_subacute",
+      "query": "발목 알파벳 운동",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "급성기"
+        ]
+      }
+    },
+    {
+      "id": "E-030",
+      "category": "exercise_stage_subacute",
+      "query": "수건 운동 손목",
+      "expected": {
+        "slug": "wrist"
+      }
+    },
+    {
+      "id": "E-031",
+      "category": "exercise_stage_chronic",
+      "query": "어깨 6주째 운동",
+      "expected": {
+        "slug": "shoulder",
+        "time_stage": "subacute",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-032",
+      "category": "exercise_stage_chronic",
+      "query": "허리 3개월째 운동",
+      "expected": {
+        "slug": "lowback",
+        "time_stage": "chronic"
+      }
+    },
+    {
+      "id": "E-033",
+      "category": "exercise_stage_chronic",
+      "query": "오래된 무릎 통증 운동",
+      "expected": {
+        "slug": "knee",
+        "time_stage": "chronic"
+      }
+    },
+    {
+      "id": "E-034",
+      "category": "exercise_stage_chronic",
+      "query": "어깨 3단계 운동",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-035",
+      "category": "exercise_stage_chronic",
+      "query": "허리 코어 강화",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "코어"
+        ]
+      }
+    },
+    {
+      "id": "E-036",
+      "category": "exercise_stage_chronic",
+      "query": "회전근개 강화 Theraband",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "회전근개"
+        ]
+      }
+    },
+    {
+      "id": "E-037",
+      "category": "exercise_stage_chronic",
+      "query": "데드버그",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "만성기"
+        ]
+      }
+    },
+    {
+      "id": "E-038",
+      "category": "exercise_stage_chronic",
+      "query": "버드독",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "만성기"
+        ]
+      }
+    },
+    {
+      "id": "E-039",
+      "category": "exercise_stage_chronic",
+      "query": "직거상 운동 무릎",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "급성기"
+        ]
+      }
+    },
+    {
+      "id": "E-040",
+      "category": "exercise_stage_chronic",
+      "query": "수영 무릎",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "E-041",
+      "category": "exercise_contraindication",
+      "query": "허리 디스크 환자 스쿼트 해도 돼?",
+      "expected": {
+        "slug": "lowback",
+        "ex_contra": true,
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "E-042",
+      "category": "exercise_contraindication",
+      "query": "협착증에서 신전 운동",
+      "expected": {
+        "slug": "lowback",
+        "ex_contra": true,
+        "any_result_heading_contains": [
+          "척추관"
+        ]
+      }
+    },
+    {
+      "id": "E-043",
+      "category": "exercise_contraindication",
+      "query": "회전근개 파열 오버헤드 운동",
+      "expected": {
+        "slug": "shoulder",
+        "ex_contra": true,
+        "any_result_heading_contains": [
+          "회전근개"
+        ]
+      }
+    },
+    {
+      "id": "E-044",
+      "category": "exercise_contraindication",
+      "query": "ACL 재건 후 운동 금기",
+      "expected": {
+        "slug": "knee",
+        "ex_contra": true,
+        "any_result_heading_contains": [
+          "전방십자인대"
+        ]
+      }
+    },
+    {
+      "id": "E-045",
+      "category": "exercise_contraindication",
+      "query": "반월상 연골 깊은 스쿼트",
+      "expected": {
+        "slug": "knee",
+        "ex_contra": true,
+        "any_result_heading_contains": [
+          "반월상연골"
+        ]
+      }
+    },
+    {
+      "id": "E-046",
+      "category": "exercise_contraindication",
+      "query": "수근관 증후군 스트레칭 금기",
+      "expected": {
+        "slug": "wrist",
+        "ex_contra": true,
+        "any_result_heading_contains": [
+          "수근관"
+        ]
+      }
+    },
+    {
+      "id": "E-047",
+      "category": "exercise_contraindication",
+      "query": "아킬레스 파열 수술 후 운동",
+      "expected": {
+        "slug": "ankle",
+        "ex_contra": true,
+        "any_result_heading_contains": [
+          "아킬레스"
+        ]
+      }
+    },
+    {
+      "id": "E-048",
+      "category": "exercise_contraindication",
+      "query": "족저근막염 맨발 점프",
+      "expected": {
+        "slug": "foot",
+        "ex_contra": true,
+        "any_result_heading_contains": [
+          "족저근막염"
+        ]
+      }
+    },
+    {
+      "id": "E-049",
+      "category": "exercise_contraindication",
+      "query": "동결견 강제 스트레칭",
+      "expected": {
+        "slug": "shoulder",
+        "ex_contra": true,
+        "any_result_heading_contains": [
+          "유착성"
+        ]
+      }
+    },
+    {
+      "id": "E-050",
+      "category": "exercise_contraindication",
+      "query": "CAI 점프 운동",
+      "expected": {
+        "slug": "ankle",
+        "ex_contra": true,
+        "any_result_heading_contains": [
+          "불안정성"
+        ]
+      }
+    },
+    {
+      "id": "E-051",
+      "category": "exercise_safe_alternative",
+      "query": "디스크 환자 안전한 운동",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "운동"
+        ]
+      }
+    },
+    {
+      "id": "E-052",
+      "category": "exercise_safe_alternative",
+      "query": "협착증 환자 권장 운동",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "척추관"
+        ]
+      }
+    },
+    {
+      "id": "E-053",
+      "category": "exercise_safe_alternative",
+      "query": "ACL 후 권장 운동",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "전방십자인대"
+        ]
+      }
+    },
+    {
+      "id": "E-054",
+      "category": "exercise_safe_alternative",
+      "query": "동결견 안전 운동",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "유착성"
+        ]
+      }
+    },
+    {
+      "id": "E-055",
+      "category": "exercise_safe_alternative",
+      "query": "수근관 증후군 권장 스트레칭",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "수근관"
+        ]
+      }
+    },
+    {
+      "id": "E-056",
+      "category": "exercise_safe_alternative",
+      "query": "허리 통증 시 걷기",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "E-057",
+      "category": "exercise_safe_alternative",
+      "query": "관절염 수영",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "슬관절"
+        ]
+      }
+    },
+    {
+      "id": "E-058",
+      "category": "exercise_safe_alternative",
+      "query": "고정 자전거 무릎",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "E-059",
+      "category": "exercise_safe_alternative",
+      "query": "족저근막염 스트레칭",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "족저근막염"
+        ]
+      }
+    },
+    {
+      "id": "E-060",
+      "category": "exercise_safe_alternative",
+      "query": "발목 균형 운동 CAI",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "불안정성"
+        ]
+      }
+    },
+    {
+      "id": "E-061",
+      "category": "exercise_specific_movement",
+      "query": "스쿼트",
+      "expected": {
+        "any_result_heading_contains": [
+          "스쿼트"
+        ]
+      }
+    },
+    {
+      "id": "E-062",
+      "category": "exercise_specific_movement",
+      "query": "데드리프트",
+      "expected": {
+        "ex_catalog": true,
+        "any_result_heading_contains": [
+          "데드리프트"
+        ]
+      }
+    },
+    {
+      "id": "E-063",
+      "category": "exercise_specific_movement",
+      "query": "벤치프레스",
+      "expected": {
+        "ex_catalog": true,
+        "any_result_heading_contains": [
+          "벤치프레스"
+        ]
+      }
+    },
+    {
+      "id": "E-064",
+      "category": "exercise_specific_movement",
+      "query": "런지",
+      "expected": {
+        "ex_catalog": true,
+        "any_result_heading_contains": [
+          "런지"
+        ]
+      }
+    },
+    {
+      "id": "E-065",
+      "category": "exercise_specific_movement",
+      "query": "플랭크",
+      "expected": {
+        "any_result_heading_contains": [
+          "플랭크"
+        ]
+      }
+    },
+    {
+      "id": "E-066",
+      "category": "exercise_specific_movement",
+      "query": "푸쉬업",
+      "expected": {
+        "ex_catalog": true,
+        "any_result_heading_contains": [
+          "푸쉬업"
+        ]
+      }
+    },
+    {
+      "id": "E-067",
+      "category": "exercise_specific_movement",
+      "query": "오버헤드 프레스",
+      "expected": {
+        "ex_catalog": true,
+        "any_result_heading_contains": [
+          "프레스"
+        ]
+      }
+    },
+    {
+      "id": "E-068",
+      "category": "exercise_specific_movement",
+      "query": "윗몸일으키기",
+      "expected": {
+        "ex_catalog": true,
+        "any_result_heading_contains": [
+          "윗몸일으키기"
+        ]
+      }
+    },
+    {
+      "id": "E-069",
+      "category": "exercise_specific_movement",
+      "query": "달리기 무릎 아픔",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "E-070",
+      "category": "exercise_specific_movement",
+      "query": "줄넘기 발목",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "인공관절치환술"
+        ]
+      }
+    },
+    {
+      "id": "E-071",
+      "category": "exercise_return_to_sport",
+      "query": "ACL 수술 후 스포츠 복귀",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "전방십자인대"
+        ]
+      }
+    },
+    {
+      "id": "E-072",
+      "category": "exercise_return_to_sport",
+      "query": "회전근개 봉합 후 운동 복귀",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "회전근개"
+        ]
+      }
+    },
+    {
+      "id": "E-073",
+      "category": "exercise_return_to_sport",
+      "query": "아킬레스 파열 후 달리기 복귀",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "아킬레스"
+        ]
+      }
+    },
+    {
+      "id": "E-074",
+      "category": "exercise_return_to_sport",
+      "query": "디스크 수술 후 운동 복귀",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "E-075",
+      "category": "exercise_return_to_sport",
+      "query": "반월상연골 수술 후 스포츠",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "반월상연골"
+        ]
+      }
+    },
+    {
+      "id": "E-076",
+      "category": "exercise_return_to_sport",
+      "query": "4단계 복귀 운동",
+      "expected": {
+        "any_result_heading_contains": [
+          "복귀"
+        ]
+      }
+    },
+    {
+      "id": "E-077",
+      "category": "exercise_return_to_sport",
+      "query": "점진적 복귀",
+      "expected": {
+        "any_result_heading_contains": [
+          "스포츠"
+        ]
+      }
+    },
+    {
+      "id": "E-078",
+      "category": "exercise_return_to_sport",
+      "query": "재손상 방지",
+      "expected": {
+        "ex_catalog": true,
+        "any_result_heading_contains": [
+          "재손상"
+        ]
+      }
+    },
+    {
+      "id": "E-079",
+      "category": "exercise_return_to_sport",
+      "query": "근력 회복 후 운동",
+      "expected": {
+        "any_result_heading_contains": [
+          "스포츠"
+        ]
+      }
+    },
+    {
+      "id": "E-080",
+      "category": "exercise_return_to_sport",
+      "query": "운동 복귀 기준",
+      "expected": {
+        "any_result_heading_contains": [
+          "스포츠"
+        ]
+      }
+    },
+    {
+      "id": "E-081",
+      "category": "exercise_patient_natural",
+      "query": "운동하면 더 아파요",
+      "expected": {
+        "any_result_heading_contains": [
+          "통증"
+        ]
+      }
+    },
+    {
+      "id": "E-082",
+      "category": "exercise_patient_natural",
+      "query": "팔이 안 올라가는데 운동",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-083",
+      "category": "exercise_patient_natural",
+      "query": "무릎이 시려도 운동해도 돼요",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "슬관절"
+        ]
+      }
+    },
+    {
+      "id": "E-084",
+      "category": "exercise_patient_natural",
+      "query": "발목이 흔들리는데 운동",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "불안정성"
+        ]
+      }
+    },
+    {
+      "id": "E-085",
+      "category": "exercise_patient_natural",
+      "query": "허리 펴면 아픈데 어떤 운동",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "척추관"
+        ]
+      }
+    },
+    {
+      "id": "E-086",
+      "category": "exercise_patient_natural",
+      "query": "손이 저린데 운동",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "E-087",
+      "category": "exercise_patient_natural",
+      "query": "아침에 발이 아픈데 운동",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "급성기"
+        ]
+      }
+    },
+    {
+      "id": "E-088",
+      "category": "exercise_patient_natural",
+      "query": "오래 서있으면 다리가 무거운데 운동",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "척추관"
+        ]
+      }
+    },
+    {
+      "id": "E-089",
+      "category": "exercise_patient_natural",
+      "query": "엄지가 아픈데 운동",
+      "expected": {
+        "slug": "finger",
+        "any_result_heading_contains": [
+          "엄지"
+        ]
+      }
+    },
+    {
+      "id": "E-090",
+      "category": "exercise_patient_natural",
+      "query": "어깨 굳어서 빗질 안 되는데 운동",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "ROM"
+        ]
+      }
+    },
+    {
+      "id": "E-091",
+      "category": "exercise_red_flag",
+      "query": "운동 중에 종아리 뚝 소리",
+      "expected": {
+        "slug": "calf",
+        "emergency": true
+      }
+    },
+    {
+      "id": "E-092",
+      "category": "exercise_red_flag",
+      "query": "운동 중 무릎이 잠겼어요",
+      "expected": {
+        "emergency": true,
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "E-093",
+      "category": "exercise_red_flag",
+      "query": "운동 후 다리 마비",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "마미증후군"
+        ]
+      }
+    },
+    {
+      "id": "E-094",
+      "category": "exercise_red_flag",
+      "query": "운동 후 대소변 장애",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "마미증후군"
+        ]
+      }
+    },
+    {
+      "id": "E-095",
+      "category": "exercise_red_flag",
+      "query": "운동 후 변형",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "E-096",
+      "category": "exercise_red_flag",
+      "query": "운동 후 발열 관절",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "E-097",
+      "category": "exercise_red_flag",
+      "query": "운동 중 흉통",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "E-098",
+      "category": "exercise_red_flag",
+      "query": "운동 후 호흡곤란",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "E-099",
+      "category": "exercise_red_flag",
+      "query": "운동 후 점차 약해지는 다리",
+      "expected": {
+        "emergency": true
+      }
+    },
+    {
+      "id": "E-100",
+      "category": "exercise_red_flag",
+      "query": "운동 후 외상 부종",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    }
+  ]
+}

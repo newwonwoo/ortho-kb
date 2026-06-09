@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# AI 학습 크롤러 정책 (선택적으로 제한)
+# 의료 콘텐츠는 검색 발견은 허용하되 LLM 학습 데이터 사용은 제한 권고
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://newwonwoo.github.io/ortho-kb/sitemap.xml

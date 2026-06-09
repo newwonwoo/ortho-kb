@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img"
+     aria-label="Towel Curl + Wrist Strength — 수건 잡기 · 손목 3단계">
+  <title>Towel Curl + Wrist Strength — 수건 잡기 · 손목 3단계</title>
+  <rect width="320" height="320" fill="#fafafa"/>
+  <line x1="20" y1="290" x2="300" y2="290" stroke="#9ca3af" stroke-width="2"/>
+  <text x="160" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1f2937">
+    Towel Curl + Wrist Strength
+  </text>
+  <text x="160" y="46" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#666">
+    수건 잡기 · 손목 3단계
+  </text>
+
+  <!-- 책상 위에서 손 자세 -->
+  <rect x="40" y="190" width="240" height="8" fill="#9ca3af"/>
+  <!-- 아래팔 (책상 위) -->
+  <line x1="80" y1="160" x2="180" y2="160" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <!-- 손목 -->
+  <circle cx="180" cy="160" r="5" fill="#2563eb"/>
+  <!-- 손바닥 -->
+  <line x1="180" y1="160" x2="215" y2="160" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <!-- 손가락 (수건 잡는 굴곡 자세) -->
+  <line x1="215" y1="160" x2="225" y2="178" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+  <line x1="220" y1="160" x2="232" y2="180" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+  <!-- 수건 -->
+  <path d="M 230 188 Q 260 175 285 188" fill="none" stroke="#fbbf24" stroke-width="6"/>
+  <!-- 손가락 굽힘 화살표 -->
+  <path d="M 240 145 Q 232 170 228 180" fill="none" stroke="#dc2626" stroke-width="2"/>
+  <polygon points="228,180 226,172 234,175" fill="#dc2626"/>
+  <text x="160" y="240" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#666">손가락 굴근·악력 강화</text>
+
+  <text x="160" y="312" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">
+    수건을 발가락/손가락으로 모으기 10회 × 3세트
+  </text>
+</svg>

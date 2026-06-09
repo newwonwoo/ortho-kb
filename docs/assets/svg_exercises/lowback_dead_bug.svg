@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img"
+     aria-label="Dead Bug — 데드버그 · 허리 3단계 코어">
+  <title>Dead Bug — 데드버그 · 허리 3단계 코어</title>
+  <rect width="320" height="320" fill="#fafafa"/>
+  <line x1="20" y1="290" x2="300" y2="290" stroke="#9ca3af" stroke-width="2"/>
+  <text x="160" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1f2937">
+    Dead Bug
+  </text>
+  <text x="160" y="46" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#666">
+    데드버그 · 허리 3단계 코어
+  </text>
+
+  <!-- 누운 자세, 위에서 본 시점 -->
+  <!-- 머리 -->
+  <circle cx="160" cy="70" r="15" fill="none" stroke="#1f2937" stroke-width="3"/>
+  <!-- 몸통 -->
+  <line x1="160" y1="85" x2="160" y2="195" stroke="#1f2937" stroke-width="5" stroke-linecap="round"/>
+  <!-- 환측 팔 (위로 뻗음) -->
+  <line x1="160" y1="100" x2="240" y2="60" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+  <!-- 반대 팔 (90도) -->
+  <line x1="160" y1="100" x2="100" y2="100" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+  <line x1="100" y1="100" x2="100" y2="70" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+  <!-- 환측 반대 다리 (뻗음) -->
+  <line x1="160" y1="190" x2="80" y2="250" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+  <!-- 같은 쪽 다리 (90도 굽힘) -->
+  <line x1="160" y1="190" x2="220" y2="190" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+  <line x1="220" y1="190" x2="220" y2="240" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+  <!-- 매트 -->
+  <rect x="50" y="40" width="220" height="240" fill="none" stroke="#1f2937" stroke-width="2" stroke-dasharray="3 3"/>
+  <text x="160" y="270" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#666">대각선 팔·다리 동시 뻗기 (코어 안정)</text>
+
+  <text x="160" y="312" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">
+    반대 팔·다리 뻗기 10회 × 3세트
+  </text>
+</svg>

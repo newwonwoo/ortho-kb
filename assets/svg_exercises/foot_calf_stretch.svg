@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img"
+     aria-label="Calf Stretch (Wall) — 종아리 스트레칭 · 발바닥">
+  <title>Calf Stretch (Wall) — 종아리 스트레칭 · 발바닥</title>
+  <rect width="320" height="320" fill="#fafafa"/>
+  <line x1="20" y1="290" x2="300" y2="290" stroke="#9ca3af" stroke-width="2"/>
+  <text x="160" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1f2937">
+    Calf Stretch (Wall)
+  </text>
+  <text x="160" y="46" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#666">
+    종아리 스트레칭 · 발바닥
+  </text>
+
+  <!-- 벽 -->
+  <rect x="40" y="60" width="6" height="220" fill="#9ca3af"/>
+  <!-- 머리 -->
+  <circle cx="160" cy="90" r="14" fill="none" stroke="#1f2937" stroke-width="3"/>
+  <!-- 몸통 (앞으로 기울임) -->
+  <line x1="160" y1="104" x2="120" y2="190" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+  <!-- 양손 벽 짚음 -->
+  <line x1="155" y1="120" x2="55" y2="140" stroke="#1f2937" stroke-width="3" stroke-linecap="round"/>
+  <line x1="155" y1="125" x2="55" y2="170" stroke="#1f2937" stroke-width="3" stroke-linecap="round"/>
+  <!-- 앞다리 (가까운 다리, 무릎 굽힘) -->
+  <line x1="120" y1="190" x2="100" y2="240" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+  <line x1="100" y1="240" x2="105" y2="285" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+  <!-- 뒷다리 (환측, 펴진 상태) -->
+  <line x1="120" y1="190" x2="200" y2="285" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <!-- 뒷발 (바닥 평평) -->
+  <line x1="195" y1="285" x2="220" y2="285" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <text x="220" y="270" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#dc2626" font-weight="bold">스트레칭</text>
+
+  <text x="160" y="312" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">
+    무릎 펴고 30초 × 3회, 무릎 굽혀 30초 × 3회
+  </text>
+</svg>

@@ -1,0 +1,1022 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "ortho-kb 약물 도메인 회귀 100개 시나리오. 환자가 약에 대해 물을 만한 모든 패턴 커버.",
+    "categories": [
+      "drug_basic",
+      "drug_compare",
+      "drug_interaction",
+      "drug_dose",
+      "drug_side_effect",
+      "drug_contraindication",
+      "drug_patient_natural",
+      "drug_route",
+      "drug_indication",
+      "drug_safety_emergency"
+    ],
+    "expected_schema_note": "expected는 search_test_suite와 동일. drug_compare/drug_interaction은 검색 카드 노출 여부를 직접 검증."
+  },
+  "tests": [
+    {
+      "id": "D-001",
+      "category": "drug_basic",
+      "query": "이부프로펜",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-002",
+      "category": "drug_basic",
+      "query": "아세트아미노펜",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-003",
+      "category": "drug_basic",
+      "query": "타이레놀",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-004",
+      "category": "drug_basic",
+      "query": "부루펜",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-005",
+      "category": "drug_basic",
+      "query": "셀레콕시브",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-006",
+      "category": "drug_basic",
+      "query": "나프록센",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-007",
+      "category": "drug_basic",
+      "query": "트라마돌",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-008",
+      "category": "drug_basic",
+      "query": "히알루론산",
+      "expected": {
+        "slug": "knee"
+      }
+    },
+    {
+      "id": "D-009",
+      "category": "drug_basic",
+      "query": "스테로이드 주사",
+      "expected": {
+        "any_result_heading_contains": [
+          "주사"
+        ]
+      }
+    },
+    {
+      "id": "D-010",
+      "category": "drug_basic",
+      "query": "디클로페낙",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-011",
+      "category": "drug_compare",
+      "query": "타이레놀 vs 부루펜",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-012",
+      "category": "drug_compare",
+      "query": "아세트아미노펜이랑 이부프로펜 차이",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-013",
+      "category": "drug_compare",
+      "query": "이부프로펜 vs 나프록센",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-014",
+      "category": "drug_compare",
+      "query": "이부프로펜과 셀레콕시브 차이",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-015",
+      "category": "drug_compare",
+      "query": "셀레콕시브 vs 이부프로펜",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-016",
+      "category": "drug_compare",
+      "query": "트라마돌이랑 이부프로펜 차이",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-017",
+      "category": "drug_compare",
+      "query": "국소 NSAID vs 경구 NSAID",
+      "expected": {
+        "drug_compare": true
+      }
+    },
+    {
+      "id": "D-018",
+      "category": "drug_compare",
+      "query": "볼타렌겔이랑 이부프로펜 비교",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-019",
+      "category": "drug_compare",
+      "query": "케토톱 vs 먹는 약",
+      "expected": {
+        "drug_compare": true
+      }
+    },
+    {
+      "id": "D-020",
+      "category": "drug_compare",
+      "query": "타이레놀 부루펜 어떤 게 더 좋아",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-021",
+      "category": "drug_interaction",
+      "query": "이부프로펜 와파린 같이",
+      "expected": {
+        "any_result_heading_contains": [
+          "OTC"
+        ]
+      }
+    },
+    {
+      "id": "D-022",
+      "category": "drug_interaction",
+      "query": "트라마돌 SSRI 같이 먹어도 돼",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-023",
+      "category": "drug_interaction",
+      "query": "이부프로펜 아스피린",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-024",
+      "category": "drug_interaction",
+      "query": "NSAID ACEi 같이",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-025",
+      "category": "drug_interaction",
+      "query": "트라마돌 듀록세틴",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-026",
+      "category": "drug_interaction",
+      "query": "NSAID 리튬",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-027",
+      "category": "drug_interaction",
+      "query": "이부프로펜 메토트렉세이트",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-028",
+      "category": "drug_interaction",
+      "query": "아세트아미노펜 와파린",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-029",
+      "category": "drug_interaction",
+      "query": "NSAID SSRI 위장 출혈",
+      "expected": {
+        "any_result_heading_contains": [
+          "OTC"
+        ]
+      }
+    },
+    {
+      "id": "D-030",
+      "category": "drug_interaction",
+      "query": "셀레콕시브 플루코나졸",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-031",
+      "category": "drug_dose",
+      "query": "이부프로펜 하루 최대 용량",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-032",
+      "category": "drug_dose",
+      "query": "아세트아미노펜 하루 최대",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-033",
+      "category": "drug_dose",
+      "query": "타이레놀 4g",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-034",
+      "category": "drug_dose",
+      "query": "나프록센 1일 2회",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-035",
+      "category": "drug_dose",
+      "query": "트라마돌 용량",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-036",
+      "category": "drug_dose",
+      "query": "셀레콕시브 200mg",
+      "expected": {
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    },
+    {
+      "id": "D-037",
+      "category": "drug_dose",
+      "query": "프레가발린 시작 용량",
+      "expected": {
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    },
+    {
+      "id": "D-038",
+      "category": "drug_dose",
+      "query": "스테로이드 주사 횟수",
+      "expected": {
+        "any_result_heading_contains": [
+          "주사"
+        ]
+      }
+    },
+    {
+      "id": "D-039",
+      "category": "drug_dose",
+      "query": "이부프로펜 q4h",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-040",
+      "category": "drug_dose",
+      "query": "듀록세틴 60mg",
+      "expected": {
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    },
+    {
+      "id": "D-041",
+      "category": "drug_side_effect",
+      "query": "이부프로펜 위장 부작용",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-042",
+      "category": "drug_side_effect",
+      "query": "NSAID 신장",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-043",
+      "category": "drug_side_effect",
+      "query": "아세트아미노펜 간독성",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-044",
+      "category": "drug_side_effect",
+      "query": "트라마돌 어지러움",
+      "expected": {
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    },
+    {
+      "id": "D-045",
+      "category": "drug_side_effect",
+      "query": "셀레콕시브 심혈관 위험",
+      "expected": {
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    },
+    {
+      "id": "D-046",
+      "category": "drug_side_effect",
+      "query": "스테로이드 주사 부작용",
+      "expected": {
+        "any_result_heading_contains": [
+          "주사"
+        ]
+      }
+    },
+    {
+      "id": "D-047",
+      "category": "drug_side_effect",
+      "query": "이부프로펜 속쓰림",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-048",
+      "category": "drug_side_effect",
+      "query": "NSAID 출혈 위험",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-049",
+      "category": "drug_side_effect",
+      "query": "트라마돌 의존성",
+      "expected": {
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    },
+    {
+      "id": "D-050",
+      "category": "drug_side_effect",
+      "query": "프레가발린 어지러움",
+      "expected": {
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    },
+    {
+      "id": "D-051",
+      "category": "drug_contraindication",
+      "query": "임신 NSAID",
+      "expected": {
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-052",
+      "category": "drug_contraindication",
+      "query": "신부전 셀레콕시브",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-053",
+      "category": "drug_contraindication",
+      "query": "고령자 이부프로펜",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-054",
+      "category": "drug_contraindication",
+      "query": "음주자 아세트아미노펜",
+      "expected": {
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-055",
+      "category": "drug_contraindication",
+      "query": "심부전 NSAID",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-056",
+      "category": "drug_contraindication",
+      "query": "CKD NSAID",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-057",
+      "category": "drug_contraindication",
+      "query": "위궤양 이부프로펜",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-058",
+      "category": "drug_contraindication",
+      "query": "간질환 아세트아미노펜",
+      "expected": {
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-059",
+      "category": "drug_contraindication",
+      "query": "천식 NSAID",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-060",
+      "category": "drug_contraindication",
+      "query": "수유 중 약",
+      "expected": {
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-061",
+      "category": "drug_patient_natural",
+      "query": "약 먹고 속이 쓰려요",
+      "expected": {
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-062",
+      "category": "drug_patient_natural",
+      "query": "진통제 뭐 먹어야 해요",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-063",
+      "category": "drug_patient_natural",
+      "query": "약 안 들어요",
+      "expected": {
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "D-064",
+      "category": "drug_patient_natural",
+      "query": "처방받은 약이 너무 졸려요",
+      "expected": {
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-065",
+      "category": "drug_patient_natural",
+      "query": "혈압약 먹는데 진통제",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-066",
+      "category": "drug_patient_natural",
+      "query": "와파린 먹는데 무릎 아파",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-067",
+      "category": "drug_patient_natural",
+      "query": "위장약이랑 같이 먹어요",
+      "expected": {
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-068",
+      "category": "drug_patient_natural",
+      "query": "약국에서 살 수 있는 진통제",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-069",
+      "category": "drug_patient_natural",
+      "query": "주사 맞으면 통증이 사라져요",
+      "expected": {
+        "any_result_heading_contains": [
+          "주사"
+        ]
+      }
+    },
+    {
+      "id": "D-070",
+      "category": "drug_patient_natural",
+      "query": "약을 끊어도 돼요",
+      "expected": {
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "D-071",
+      "category": "drug_route",
+      "query": "스테로이드 주사",
+      "expected": {
+        "any_result_heading_contains": [
+          "주사"
+        ]
+      }
+    },
+    {
+      "id": "D-072",
+      "category": "drug_route",
+      "query": "히알루론산 주사 무릎",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "주사"
+        ]
+      }
+    },
+    {
+      "id": "D-073",
+      "category": "drug_route",
+      "query": "PRP 주사",
+      "expected": {
+        "slug": "knee"
+      }
+    },
+    {
+      "id": "D-074",
+      "category": "drug_route",
+      "query": "케토톱 패치",
+      "expected": {
+        "any_result_heading_contains": [
+          "OTC"
+        ]
+      }
+    },
+    {
+      "id": "D-075",
+      "category": "drug_route",
+      "query": "볼타렌 겔",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-076",
+      "category": "drug_route",
+      "query": "디클로페낙 패치 vs 정제",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-077",
+      "category": "drug_route",
+      "query": "관절강 주사",
+      "expected": {
+        "any_result_heading_contains": [
+          "주사"
+        ]
+      }
+    },
+    {
+      "id": "D-078",
+      "category": "drug_route",
+      "query": "경막외 주사",
+      "expected": {
+        "slug": "lowback"
+      }
+    },
+    {
+      "id": "D-079",
+      "category": "drug_route",
+      "query": "허리 신경근 차단 주사",
+      "expected": {
+        "slug": "lowback"
+      }
+    },
+    {
+      "id": "D-080",
+      "category": "drug_route",
+      "query": "PRP vs 히알루론산 무릎",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-081",
+      "category": "drug_indication",
+      "query": "어깨 야간통에 무슨 약",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "D-082",
+      "category": "drug_indication",
+      "query": "무릎 관절염 약",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "D-083",
+      "category": "drug_indication",
+      "query": "발목 삠 약물",
+      "expected": {
+        "slug": "ankle"
+      }
+    },
+    {
+      "id": "D-084",
+      "category": "drug_indication",
+      "query": "족저근막염 약",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "족저근막염"
+        ]
+      }
+    },
+    {
+      "id": "D-085",
+      "category": "drug_indication",
+      "query": "수근관 증후군 약물",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "수근관"
+        ]
+      }
+    },
+    {
+      "id": "D-086",
+      "category": "drug_indication",
+      "query": "허리 디스크 약",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "D-087",
+      "category": "drug_indication",
+      "query": "신경병증성 통증 약",
+      "expected": {
+        "any_result_heading_contains": [
+          "신경병증성"
+        ]
+      }
+    },
+    {
+      "id": "D-088",
+      "category": "drug_indication",
+      "query": "만성 통증 듀록세틴",
+      "expected": {
+        "any_result_heading_contains": [
+          "불안정성"
+        ]
+      }
+    },
+    {
+      "id": "D-089",
+      "category": "drug_indication",
+      "query": "급성 염증 NSAID",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-090",
+      "category": "drug_indication",
+      "query": "어깨 동결견 약",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "유착성"
+        ]
+      }
+    },
+    {
+      "id": "D-091",
+      "category": "drug_safety_emergency",
+      "query": "트라마돌 SSRI 세로토닌 증후군",
+      "expected": {
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    },
+    {
+      "id": "D-092",
+      "category": "drug_safety_emergency",
+      "query": "아세트아미노펜 과량 4g 초과",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "D-093",
+      "category": "drug_safety_emergency",
+      "query": "NSAID Triple whammy ACEi 이뇨제",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-094",
+      "category": "drug_safety_emergency",
+      "query": "와파린 NSAID 출혈",
+      "expected": {
+        "any_result_heading_contains": [
+          "OTC"
+        ]
+      }
+    },
+    {
+      "id": "D-095",
+      "category": "drug_safety_emergency",
+      "query": "트라마돌 SNRI 위험",
+      "expected": {
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    },
+    {
+      "id": "D-096",
+      "category": "drug_safety_emergency",
+      "query": "스테로이드 주사 빈도 1년",
+      "expected": {
+        "any_result_heading_contains": [
+          "주사"
+        ]
+      }
+    },
+    {
+      "id": "D-097",
+      "category": "drug_safety_emergency",
+      "query": "리튬 NSAID 독성",
+      "expected": {
+        "any_result_heading_contains": [
+          "OTC"
+        ]
+      }
+    },
+    {
+      "id": "D-098",
+      "category": "drug_safety_emergency",
+      "query": "메토트렉세이트 NSAID 골수억제",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "D-099",
+      "category": "drug_safety_emergency",
+      "query": "이부프로펜 위장관 출혈 즉시",
+      "expected": {
+        "emergency": true
+      }
+    },
+    {
+      "id": "D-100",
+      "category": "drug_safety_emergency",
+      "query": "트라마돌 의존성 금단",
+      "expected": {
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    }
+  ]
+}

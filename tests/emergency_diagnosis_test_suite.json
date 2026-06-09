@@ -1,0 +1,1104 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "ortho-kb 응급·진단 도메인 회귀 100개. 의료 위키 안전 핵심 — 검색 실패 = 사용자 응급 안내 누락.",
+    "categories": [
+      "rf_cauda_equina",
+      "rf_septic",
+      "rf_fracture_rupture",
+      "rf_locked_joint",
+      "rf_systemic",
+      "dx_shoulder",
+      "dx_knee_ankle_foot",
+      "dx_wrist_hand",
+      "dx_lowback",
+      "dx_differential"
+    ]
+  },
+  "tests": [
+    {
+      "id": "ED-001",
+      "category": "rf_cauda_equina",
+      "query": "마미증후군",
+      "expected": {
+        "emergency": true,
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "마미"
+        ]
+      }
+    },
+    {
+      "id": "ED-002",
+      "category": "rf_cauda_equina",
+      "query": "대소변 장애 동반 허리 통증",
+      "expected": {
+        "emergency": true,
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "마미증후군"
+        ]
+      }
+    },
+    {
+      "id": "ED-003",
+      "category": "rf_cauda_equina",
+      "query": "회음부 감각 저하",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-004",
+      "category": "rf_cauda_equina",
+      "query": "안장 감각 이상",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-005",
+      "category": "rf_cauda_equina",
+      "query": "양쪽 다리 마비",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "마미증후군"
+        ]
+      }
+    },
+    {
+      "id": "ED-006",
+      "category": "rf_cauda_equina",
+      "query": "허리 통증에 소변이 안 나와요",
+      "expected": {
+        "emergency": true,
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-007",
+      "category": "rf_cauda_equina",
+      "query": "괄약근 조절 안 됨",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-008",
+      "category": "rf_cauda_equina",
+      "query": "cauda equina syndrome",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "마미"
+        ]
+      }
+    },
+    {
+      "id": "ED-009",
+      "category": "rf_cauda_equina",
+      "query": "허리 디스크인데 소변 장애",
+      "expected": {
+        "emergency": true,
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "마미증후군"
+        ]
+      }
+    },
+    {
+      "id": "ED-010",
+      "category": "rf_cauda_equina",
+      "query": "엉덩이 감각이 없어요",
+      "expected": {
+        "emergency": true
+      }
+    },
+    {
+      "id": "ED-011",
+      "category": "rf_septic",
+      "query": "Kanavel 4징후",
+      "expected": {
+        "slug": "finger",
+        "emergency": true
+      }
+    },
+    {
+      "id": "ED-012",
+      "category": "rf_septic",
+      "query": "손가락이 부어오르고 발열",
+      "expected": {
+        "slug": "finger",
+        "emergency": true
+      }
+    },
+    {
+      "id": "ED-013",
+      "category": "rf_septic",
+      "query": "화농성 건초염",
+      "expected": {
+        "emergency": true,
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "Kanavel"
+        ]
+      }
+    },
+    {
+      "id": "ED-014",
+      "category": "rf_septic",
+      "query": "관절 발적 발열",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-015",
+      "category": "rf_septic",
+      "query": "감염성 관절염",
+      "expected": {
+        "emergency": true,
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-016",
+      "category": "rf_septic",
+      "query": "수동 신전 통증 손가락",
+      "expected": {
+        "slug": "finger",
+        "emergency": true
+      }
+    },
+    {
+      "id": "ED-017",
+      "category": "rf_septic",
+      "query": "손등 부종 발열",
+      "expected": {
+        "emergency": true
+      }
+    },
+    {
+      "id": "ED-018",
+      "category": "rf_septic",
+      "query": "관절에 고름이 차요",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-019",
+      "category": "rf_septic",
+      "query": "발이 시커멓고 악취",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-020",
+      "category": "rf_septic",
+      "query": "당뇨발 감염",
+      "expected": {
+        "emergency": true,
+        "slug": "foot"
+      }
+    },
+    {
+      "id": "ED-021",
+      "category": "rf_fracture_rupture",
+      "query": "종아리에서 뚝 소리",
+      "expected": {
+        "slug": "calf",
+        "emergency": true
+      }
+    },
+    {
+      "id": "ED-022",
+      "category": "rf_fracture_rupture",
+      "query": "운동 중 종아리 뚝",
+      "expected": {
+        "slug": "calf",
+        "emergency": true
+      }
+    },
+    {
+      "id": "ED-023",
+      "category": "rf_fracture_rupture",
+      "query": "발등 굽힘 약화",
+      "expected": {
+        "emergency": true
+      }
+    },
+    {
+      "id": "ED-024",
+      "category": "rf_fracture_rupture",
+      "query": "아킬레스 파열 의심",
+      "expected": {
+        "emergency": true,
+        "slug": "ankle"
+      }
+    },
+    {
+      "id": "ED-025",
+      "category": "rf_fracture_rupture",
+      "query": "외상 후 변형",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-026",
+      "category": "rf_fracture_rupture",
+      "query": "체중부하 불가능",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-027",
+      "category": "rf_fracture_rupture",
+      "query": "넘어진 후 손목 변형",
+      "expected": {
+        "emergency": true,
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-028",
+      "category": "rf_fracture_rupture",
+      "query": "Thompson test 양성",
+      "expected": {
+        "any_result_heading_contains": [
+          "응급"
+        ]
+      }
+    },
+    {
+      "id": "ED-029",
+      "category": "rf_fracture_rupture",
+      "query": "원위요골 골절",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "원위요골"
+        ]
+      }
+    },
+    {
+      "id": "ED-030",
+      "category": "rf_fracture_rupture",
+      "query": "Colles 골절",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "원위요골"
+        ]
+      }
+    },
+    {
+      "id": "ED-031",
+      "category": "rf_locked_joint",
+      "query": "무릎이 잠겨서 안 펴져요",
+      "expected": {
+        "emergency": true,
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-032",
+      "category": "rf_locked_joint",
+      "query": "무릎 잠김",
+      "expected": {
+        "emergency": true,
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-033",
+      "category": "rf_locked_joint",
+      "query": "무릎이 안 펴져",
+      "expected": {
+        "emergency": true,
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-034",
+      "category": "rf_locked_joint",
+      "query": "Bucket handle 파열",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "전방십자인대"
+        ]
+      }
+    },
+    {
+      "id": "ED-035",
+      "category": "rf_locked_joint",
+      "query": "knee locking",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-036",
+      "category": "rf_locked_joint",
+      "query": "어깨 탈구",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "ED-037",
+      "category": "rf_locked_joint",
+      "query": "관절이 빠진 느낌",
+      "expected": {
+        "any_result_heading_contains": [
+          "인공관절치환술"
+        ]
+      }
+    },
+    {
+      "id": "ED-038",
+      "category": "rf_locked_joint",
+      "query": "무릎 잠겼어요",
+      "expected": {
+        "emergency": true,
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-039",
+      "category": "rf_locked_joint",
+      "query": "Apley test",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "신체검사"
+        ]
+      }
+    },
+    {
+      "id": "ED-040",
+      "category": "rf_locked_joint",
+      "query": "McMurray test 양성",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "신체검사"
+        ]
+      }
+    },
+    {
+      "id": "ED-041",
+      "category": "rf_systemic",
+      "query": "어깨 흉통 호흡곤란",
+      "expected": {
+        "emergency": true,
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-042",
+      "category": "rf_systemic",
+      "query": "야간통 체중감소",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-043",
+      "category": "rf_systemic",
+      "query": "원인 모를 발열 관절통",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-044",
+      "category": "rf_systemic",
+      "query": "암 병력 허리 통증",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "ED-045",
+      "category": "rf_systemic",
+      "query": "쇠약 진행성 다리",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-046",
+      "category": "rf_systemic",
+      "query": "어깨 통증인데 가슴까지 아파요",
+      "expected": {
+        "emergency": true,
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-047",
+      "category": "rf_systemic",
+      "query": "최근 체중 감소 야간통",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-048",
+      "category": "rf_systemic",
+      "query": "감각이 점점 없어져요",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-049",
+      "category": "rf_systemic",
+      "query": "걸을수록 다리에 힘이 빠짐",
+      "expected": {
+        "emergency": true
+      }
+    },
+    {
+      "id": "ED-050",
+      "category": "rf_systemic",
+      "query": "허리 통증 + 발열",
+      "expected": {
+        "emergency": true,
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-051",
+      "category": "dx_shoulder",
+      "query": "회전근개 질환",
+      "expected": {
+        "slug": "shoulder",
+        "top1_heading_contains": "회전근개",
+        "any_result_heading_contains": [
+          "회전근개"
+        ]
+      }
+    },
+    {
+      "id": "ED-052",
+      "category": "dx_shoulder",
+      "query": "견봉하 충돌증후군",
+      "expected": {
+        "any_result_heading_contains": [
+          "충돌증후군"
+        ]
+      }
+    },
+    {
+      "id": "ED-053",
+      "category": "dx_shoulder",
+      "query": "동결견 진단",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "유착성"
+        ]
+      }
+    },
+    {
+      "id": "ED-054",
+      "category": "dx_shoulder",
+      "query": "유착성 관절낭염",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "동결견"
+        ]
+      }
+    },
+    {
+      "id": "ED-055",
+      "category": "dx_shoulder",
+      "query": "석회화건염",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "석회화"
+        ]
+      }
+    },
+    {
+      "id": "ED-056",
+      "category": "dx_shoulder",
+      "query": "견관절 불안정성",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "견관절"
+        ]
+      }
+    },
+    {
+      "id": "ED-057",
+      "category": "dx_shoulder",
+      "query": "어깨 painful arc",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "ED-058",
+      "category": "dx_shoulder",
+      "query": "이두건염",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "신체검사"
+        ]
+      }
+    },
+    {
+      "id": "ED-059",
+      "category": "dx_shoulder",
+      "query": "Hawkins-Kennedy test",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "신체검사"
+        ]
+      }
+    },
+    {
+      "id": "ED-060",
+      "category": "dx_shoulder",
+      "query": "Neer impingement",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "견봉하"
+        ]
+      }
+    },
+    {
+      "id": "ED-061",
+      "category": "dx_knee_ankle_foot",
+      "query": "슬관절 골관절염",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "골관절염"
+        ]
+      }
+    },
+    {
+      "id": "ED-062",
+      "category": "dx_knee_ankle_foot",
+      "query": "반월상연골 손상",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "반월상"
+        ]
+      }
+    },
+    {
+      "id": "ED-063",
+      "category": "dx_knee_ankle_foot",
+      "query": "전방십자인대 파열",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "ACL"
+        ]
+      }
+    },
+    {
+      "id": "ED-064",
+      "category": "dx_knee_ankle_foot",
+      "query": "슬개대퇴통증증후군",
+      "expected": {
+        "slug": "knee",
+        "top1_heading_contains": "PFPS",
+        "any_result_heading_contains": [
+          "슬개대퇴통증증후군"
+        ]
+      }
+    },
+    {
+      "id": "ED-065",
+      "category": "dx_knee_ankle_foot",
+      "query": "외측 발목 염좌",
+      "expected": {
+        "slug": "ankle"
+      }
+    },
+    {
+      "id": "ED-066",
+      "category": "dx_knee_ankle_foot",
+      "query": "후경골건 기능부전",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "후경골건"
+        ]
+      }
+    },
+    {
+      "id": "ED-067",
+      "category": "dx_knee_ankle_foot",
+      "query": "거골 골연골병변",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "골연골병변"
+        ]
+      }
+    },
+    {
+      "id": "ED-068",
+      "category": "dx_knee_ankle_foot",
+      "query": "모턴 신경종",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "모턴"
+        ]
+      }
+    },
+    {
+      "id": "ED-069",
+      "category": "dx_knee_ankle_foot",
+      "query": "무지외반증",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "무지외반"
+        ]
+      }
+    },
+    {
+      "id": "ED-070",
+      "category": "dx_knee_ankle_foot",
+      "query": "중족골 피로골절",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "중족골"
+        ]
+      }
+    },
+    {
+      "id": "ED-071",
+      "category": "dx_wrist_hand",
+      "query": "수근관 증후군",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "수근관"
+        ]
+      }
+    },
+    {
+      "id": "ED-072",
+      "category": "dx_wrist_hand",
+      "query": "드퀘르벵 건초염",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "드퀘르벵"
+        ]
+      }
+    },
+    {
+      "id": "ED-073",
+      "category": "dx_wrist_hand",
+      "query": "TFCC 손상",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "TFCC"
+        ]
+      }
+    },
+    {
+      "id": "ED-074",
+      "category": "dx_wrist_hand",
+      "query": "방아쇠수지",
+      "expected": {
+        "slug": "finger",
+        "any_result_heading_contains": [
+          "방아쇠수지"
+        ]
+      }
+    },
+    {
+      "id": "ED-075",
+      "category": "dx_wrist_hand",
+      "query": "주상골 골절",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "원위요골"
+        ]
+      }
+    },
+    {
+      "id": "ED-076",
+      "category": "dx_wrist_hand",
+      "query": "Phalen test",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "신체검사"
+        ]
+      }
+    },
+    {
+      "id": "ED-077",
+      "category": "dx_wrist_hand",
+      "query": "Tinel sign 손목",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "신체검사"
+        ]
+      }
+    },
+    {
+      "id": "ED-078",
+      "category": "dx_wrist_hand",
+      "query": "Finkelstein test",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "신체검사"
+        ]
+      }
+    },
+    {
+      "id": "ED-079",
+      "category": "dx_wrist_hand",
+      "query": "엄지 CMC 관절염",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "ED-080",
+      "category": "dx_wrist_hand",
+      "query": "정중신경 압박",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "수근관"
+        ]
+      }
+    },
+    {
+      "id": "ED-081",
+      "category": "dx_lowback",
+      "query": "추간판 탈출증",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "ED-082",
+      "category": "dx_lowback",
+      "query": "척추관 협착증",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "협착"
+        ]
+      }
+    },
+    {
+      "id": "ED-083",
+      "category": "dx_lowback",
+      "query": "좌골신경통",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "ED-084",
+      "category": "dx_lowback",
+      "query": "신경원성 파행",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "척추관"
+        ]
+      }
+    },
+    {
+      "id": "ED-085",
+      "category": "dx_lowback",
+      "query": "비특이성 요통",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "비특이성"
+        ]
+      }
+    },
+    {
+      "id": "ED-086",
+      "category": "dx_lowback",
+      "query": "후관절증후군",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "ED-087",
+      "category": "dx_lowback",
+      "query": "압박골절 척추",
+      "expected": {
+        "any_result_heading_contains": [
+          "압박골절",
+          "척추"
+        ]
+      }
+    },
+    {
+      "id": "ED-088",
+      "category": "dx_lowback",
+      "query": "SLR test 양성",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "신체검사"
+        ]
+      }
+    },
+    {
+      "id": "ED-089",
+      "category": "dx_lowback",
+      "query": "허리 디스크 진단",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "ED-090",
+      "category": "dx_lowback",
+      "query": "다리까지 저린 허리",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "ED-091",
+      "category": "dx_differential",
+      "query": "어깨 통증 감별진단",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "감별"
+        ]
+      }
+    },
+    {
+      "id": "ED-092",
+      "category": "dx_differential",
+      "query": "무릎 통증 감별",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "감별"
+        ]
+      }
+    },
+    {
+      "id": "ED-093",
+      "category": "dx_differential",
+      "query": "발목 통증 감별진단표",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "감별"
+        ]
+      }
+    },
+    {
+      "id": "ED-094",
+      "category": "dx_differential",
+      "query": "발바닥 통증 감별",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "감별"
+        ]
+      }
+    },
+    {
+      "id": "ED-095",
+      "category": "dx_differential",
+      "query": "손목 통증 감별진단",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "감별"
+        ]
+      }
+    },
+    {
+      "id": "ED-096",
+      "category": "dx_differential",
+      "query": "허리 통증 감별진단",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "감별"
+        ]
+      }
+    },
+    {
+      "id": "ED-097",
+      "category": "dx_differential",
+      "query": "어깨 흔한 질환",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "ED-098",
+      "category": "dx_differential",
+      "query": "무릎 흔한 증상",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "ED-099",
+      "category": "dx_differential",
+      "query": "허리 흔한 질환",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "ED-100",
+      "category": "dx_differential",
+      "query": "발목 외상 후 진단",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    }
+  ]
+}

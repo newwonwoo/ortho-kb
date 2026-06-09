@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ortho-kb · 위키 검색 (챗봇)</title>
+<style>
+  :root {
+    --bg: #fafafa; --fg: #222; --muted: #666; --accent: #1d4ed8;
+    --bubble-user: #dbeafe; --bubble-bot: #fff; --border: #e5e7eb;
+    --warn-bg: #fff7e6; --warn-border: #f59e0b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, "Pretendard", "Noto Sans KR", sans-serif;
+    background: var(--bg); color: var(--fg); height: 100vh; display: flex; flex-direction: column;
+  }
+  header {
+    padding: 0.75rem 1rem; background: #fff; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  header h1 { font-size: 1rem; margin: 0; }
+  header a { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+  .disclaimer {
+    background: var(--warn-bg); border-left: 4px solid var(--warn-border);
+    padding: 0.6rem 1rem; font-size: 0.85rem;
+  }
+  #chat {
+    flex: 1; overflow-y: auto; padding: 1rem; max-width: 820px;
+    width: 100%; margin: 0 auto;
+  }
+  .msg { margin: 0.6rem 0; display: flex; }
+  .msg.user { justify-content: flex-end; }
+  .bubble {
+    max-width: 80%; padding: 0.7rem 0.95rem; border-radius: 14px;
+    line-height: 1.55; word-break: break-word;
+  }
+  .msg.user .bubble { background: var(--bubble-user); }
+  .msg.bot .bubble {
+    background: var(--bubble-bot); border: 1px solid var(--border);
+  }
+  .bot .heading { font-weight: 600; margin-bottom: 0.25rem; color: var(--accent); }
+  .bot .body { font-size: 0.93rem; white-space: pre-wrap; }
+  .bot .meta { font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem; }
+  .bot .meta a { color: var(--accent); margin-left: 0.4rem; }
+  .bot .footer-note {
+    font-size: 0.8rem; color: var(--warn-border); margin-top: 0.5rem;
+    border-top: 1px dashed var(--warn-border); padding-top: 0.4rem;
+  }
+  form#chatform {
+    display: flex; gap: 0.5rem; padding: 0.75rem; border-top: 1px solid var(--border);
+    background: #fff; max-width: 820px; width: 100%; margin: 0 auto;
+  }
+  #q {
+    flex: 1; padding: 0.75rem; border: 1px solid var(--border); border-radius: 10px;
+    font-size: 1rem; outline: none;
+  }
+  #q:focus { border-color: var(--accent); }
+  button {
+    padding: 0 1.2rem; background: var(--accent); color: white; border: 0;
+    border-radius: 10px; font-size: 1rem; cursor: pointer;
+  }
+  button:disabled { background: #9ca3af; cursor: not-allowed; }
+  .empty-hint { color: var(--muted); padding: 2rem; text-align: center; font-size: 0.95rem; }
+  .quick-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+  .quick-chip {
+    padding: 0.4rem 0.7rem; background: #f3f4f6; border: 1px solid var(--border);
+    border-radius: 999px; font-size: 0.85rem; cursor: pointer; color: var(--fg);
+  }
+  .quick-chip:hover { background: var(--bubble-user); border-color: var(--accent); }
+  mark { background: #fef08a; padding: 0 0.1em; border-radius: 2px; font-weight: 500; }
+  .part-tag {
+    background: var(--accent); color: white; padding: 0.1em 0.5em;
+    border-radius: 4px; font-size: 0.78rem; margin-right: 0.3rem;
+  }
+  .result-item {
+    margin: 0.6rem 0; padding: 0.5rem 0; border-bottom: 1px dashed #eee;
+  }
+  .result-title { font-weight: 600; margin-bottom: 0.3rem; }
+  .result-title a { text-decoration: none; color: var(--accent); }
+  .result-title a:hover { text-decoration: underline; }
+
+  /* Sprint 6 — 의도 카드 시스템 */
+  .card {
+    margin: 0.7rem 0; padding: 0.7rem 0.9rem;
+    border-radius: 8px; border-left: 4px solid #9ca3af;
+    background: #fff;
+  }
+  .card-head { font-weight: 700; margin-bottom: 0.4rem; }
+  .card-body { font-size: 0.9rem; line-height: 1.55; }
+  .card-foot { font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem; }
+  .card-red { background: #fef2f2; border-left-color: #dc2626; }
+  .card-red .card-head { color: #991b1b; font-size: 1rem; }
+  .card-red-light { background: #fff7ed; border-left-color: #fb923c; }
+  .card-yellow { background: #fefce8; border-left-color: #eab308; }
+  .card-blue { background: #eff6ff; border-left-color: var(--accent); }
+  .card-green { background: #f0fdf4; border-left-color: #059669; }
+  .card-purple { background: #faf5ff; border-left-color: #9333ea; }
+  .card-gray { background: #f9fafb; border-left-color: #9ca3af; }
+  .intent-tag {
+    background: #f3f4f6; color: #374151; padding: 0.1em 0.5em;
+    border-radius: 4px; font-size: 0.78rem; margin-right: 0.2rem;
+  }
+  .norm-info {
+    background: #f3f4f6; padding: 0.4rem 0.7rem;
+    border-radius: 6px; margin: 0.4rem 0;
+    font-size: 0.82rem; color: var(--muted);
+    display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .norm-info b { color: var(--accent); }
+  .interaction-table {
+    width: 100%; border-collapse: collapse; font-size: 0.85rem;
+    margin-top: 0.3rem;
+  }
+  .interaction-table th, .interaction-table td {
+    border: 1px solid #e5e7eb; padding: 0.35rem 0.5rem; text-align: left;
+    vertical-align: top;
+  }
+  .interaction-table th { background: #f9fafb; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ortho-kb 위키 검색</h1>
+  <a href="../index.html">← 위키 홈</a>
+</header>
+
+<div class="disclaimer">
+  ⚠️ 본 검색은 위키 본문에서만 답합니다. 진단·처방은 하지 않습니다. 증상이 있으면 전문의 진료를 받으세요.
+</div>
+
+<main id="chat">
+  <div class="empty-hint">
+    <div style="margin-bottom: 0.8rem;">예시 질문 (탭해서 빠른 검색):</div>
+    <div class="quick-chips">
+      <button class="quick-chip" data-q="어깨 야간통">어깨 야간통</button>
+      <button class="quick-chip" data-q="회전근개 파열 수술">회전근개 파열 수술</button>
+      <button class="quick-chip" data-q="무릎 계단 통증">무릎 계단 통증</button>
+      <button class="quick-chip" data-q="동결견 오십견">동결견·오십견</button>
+      <button class="quick-chip" data-q="허리 디스크 다리 저림">허리 디스크 다리 저림</button>
+      <button class="quick-chip" data-q="마미증후군">마미증후군 (응급)</button>
+      <button class="quick-chip" data-q="발목 삠 응급실">발목 삠 응급실</button>
+      <button class="quick-chip" data-q="족저근막염 스트레칭">족저근막염 스트레칭</button>
+      <button class="quick-chip" data-q="손목 야간 저림">손목 야간 저림</button>
+      <button class="quick-chip" data-q="이부프로펜 와파린">이부프로펜+와파린</button>
+    </div>
+  </div>
+</main>
+
+<form id="chatform" autocomplete="off">
+  <input id="q" list="suggestions" placeholder="어디가 어떻게 아픈지 자연어로 입력하세요..." aria-label="질문 입력" />
+  <datalist id="suggestions">
+    <option value="어깨 야간통이 4주 넘게 지속돼요">
+    <option value="어깨를 들어올릴 때 60~120도에서 아파요">
+    <option value="회전근개 파열은 무조건 수술해야 하나요">
+    <option value="동결견과 회전근개 파열 차이">
+    <option value="무릎이 계단 내려갈 때 아파요">
+    <option value="무릎이 잠겨서 펴지지 않아요">
+    <option value="무릎 OA에 히알루론산 효과 있나요">
+    <option value="발목 삐었는데 X-ray 찍어야 하나요">
+    <option value="발목 자주 삐어요 만성 불안정성인가요">
+    <option value="아킬레스건 파열 수술 vs 보존">
+    <option value="아침에 첫걸음 발뒤꿈치 통증">
+    <option value="족저근막염 체외충격파">
+    <option value="모턴 신경종 신발">
+    <option value="손목이 시큰거리고 야간에 손이 저려요">
+    <option value="수근관 증후군 부목">
+    <option value="드퀘르벵 건초염 엄지 통증">
+    <option value="허리 통증이 6주 넘게">
+    <option value="추간판 탈출 좌골신경통">
+    <option value="허리 통증과 대소변 장애">
+    <option value="이부프로펜이랑 와파린 같이 먹어도 돼">
+    <option value="NSAID 위장약 PPI 병용">
+    <option value="듀록세틴 무릎 OA">
+  </datalist>
+  <button type="submit" id="send">검색</button>
+</form>
+
+<script>
+// ─── 위키 인덱스 + 의도 데이터 동시 로딩 ─────────────────────────
+let INDEX = null;
+let INTENTS = null;
+let LOADING = Promise.all([
+  fetch('index.json').then(r => r.json()),
+  fetch('intents.json').then(r => r.json()).catch(() => null),
+]).then(([idx, intents]) => { INDEX = idx; INTENTS = intents; });
+
+// ─── 쿼리 정규화 (오타 교정 + 동의어 → canonical + Sprint 7 확장) ─────────────
+function normalizeQuery(rawQuery) {
+  if (!INTENTS) return {
+    normalized: rawQuery, expansions: [], typos: [],
+    negated: [], compoundParts: null, patientPhrases: [], loanwords: []
+  };
+  let q = rawQuery;
+  const typos = [];
+  // 1) 오타 교정
+  const typoMap = INTENTS.common_typos || {};
+  for (const [wrong, right] of Object.entries(typoMap)) {
+    if (wrong.startsWith("_")) continue;
+    if (q.includes(wrong) && wrong !== right) {
+      q = q.replaceAll(wrong, right);
+      typos.push({ from: wrong, to: right });
+    }
+  }
+  // 2) 동의어 → canonical
+  const expansions = new Set();
+  const bs = INTENTS.body_synonyms || {};
+  for (const [slug, syns] of Object.entries(bs)) {
+    for (const [canonical, vars_] of Object.entries(syns)) {
+      if (canonical.startsWith("_")) continue;
+      for (const v of vars_) {
+        if (q.includes(v)) expansions.add(canonical);
+      }
+      if (q.includes(canonical)) {
+        for (const v of vars_) expansions.add(v);
+      }
+    }
+  }
+  // 글로벌 동의어
+  const gs = INTENTS.global_synonyms || {};
+  for (const [canonical, vars_] of Object.entries(gs)) {
+    if (canonical.startsWith("_")) continue;
+    for (const v of vars_) if (q.includes(v)) expansions.add(canonical);
+    if (q.includes(canonical)) for (const v of vars_) expansions.add(v);
+  }
+
+  // 3) Sprint 7 — 환자 표현 매칭 → 의학 용어로 확장
+  const patientPhrases = [];
+  const pp = INTENTS.patient_phrases || {};
+  for (const [phrase, medTerms] of Object.entries(pp)) {
+    if (phrase.startsWith("_")) continue;
+    if (q.includes(phrase)) {
+      patientPhrases.push({ phrase, medTerms });
+      for (const t of medTerms) expansions.add(t);
+    }
+  }
+
+  // 4) Sprint 7 — 외래어 매칭
+  const loanwords = [];
+  const lw = INTENTS.loanword_dictionary || {};
+  for (const [loan, terms] of Object.entries(lw)) {
+    if (loan.startsWith("_")) continue;
+    if (q.includes(loan)) {
+      loanwords.push({ loan, terms });
+      for (const t of terms) expansions.add(t);
+    }
+  }
+
+  // 5) Sprint 7 — 부정 표현 감지 (단순 substring 매칭)
+  const negated = [];
+  const negCfg = INTENTS.negation_patterns || {};
+  const negMap = negCfg.negate_categories || {};
+  for (const [phrase, category] of Object.entries(negMap)) {
+    if (phrase.startsWith("_")) continue;
+    if (q.includes(phrase)) {
+      negated.push({ phrase, category });
+    }
+  }
+
+  // 6) Sprint 7 — 복수 부위 감지 (require_all 또는 match_any)
+  let compoundParts = null;
+  const cb = INTENTS.compound_body_patterns || {};
+  for (const [key, cfg] of Object.entries(cb)) {
+    if (key.startsWith("_")) continue;
+    let matched = false;
+    if (cfg.require_all && Array.isArray(cfg.require_all)) {
+      matched = cfg.require_all.every(kw => q.includes(kw));
+    } else if (cfg.match_any) {
+      for (const pat of cfg.match_any) {
+        try {
+          if (new RegExp(pat).test(q)) { matched = true; break; }
+        } catch (e) {
+          if (q.includes(pat)) { matched = true; break; }
+        }
+      }
+    }
+    if (matched) {
+      compoundParts = { key, primary: cfg.primary, note: cfg.note };
+      break;
+    }
+  }
+
+  // 7) Sprint 8 W5 — 시간 표현 감지 (급성/아급성/만성/외상)
+  //    우선순위: trauma > acute > subacute > chronic (외상이 시간보다 우선)
+  let timeStage = null;
+  const te = INTENTS.time_expressions || {};
+  for (const stage of ['trauma', 'acute', 'subacute', 'chronic']) {
+    const cfg = te[stage];
+    if (!cfg || !cfg.patterns) continue;
+    for (const p of cfg.patterns) {
+      if (q.includes(p)) { timeStage = { stage, hit: p, desc: cfg._desc || stage }; break; }
+    }
+    if (timeStage) break;
+  }
+
+  return { normalized: q, expansions: [...expansions], typos,
+           negated, compoundParts, patientPhrases, loanwords, timeStage };
+}
+
+// ─── Red Flag 감지 ─────────────────────────────────────────────
+function detectRedFlag(query) {
+  if (!INTENTS) return null;
+  const triggers = INTENTS.red_flag_triggers || {};
+  for (const [key, t] of Object.entries(triggers)) {
+    if (key.startsWith("_")) continue;
+    // 1) match_any (단일 OR)
+    const hits = (t.match_any || []).filter(k => query.includes(k));
+    if (hits.length > 0) {
+      return { ...t, key, hits };
+    }
+    // 2) match_all_groups (다중 그룹 AND of OR)
+    const groups = t.match_all_groups || [];
+    if (groups.length > 0) {
+      const groupHits = [];
+      let allOk = true;
+      for (const group of groups) {
+        const hit = group.find(k => query.includes(k));
+        if (!hit) { allOk = false; break; }
+        groupHits.push(hit);
+      }
+      if (allOk && groupHits.length > 0) {
+        return { ...t, key, hits: groupHits };
+      }
+    }
+  }
+  return null;
+}
+
+// ─── 의도 분류 ─────────────────────────────────────────────────
+function classifyIntent(query) {
+  if (!INTENTS) return [];
+  const ic = INTENTS.intent_classifier || {};
+  const intents = [];
+  for (const [intent, kws] of Object.entries(ic)) {
+    if (intent.startsWith("_")) continue;
+    if (kws.some(k => query.includes(k))) intents.push(intent);
+  }
+  return intents;
+}
+
+// ─── 약물 상호작용 감지 ────────────────────────────────────────
+function detectDrugInteraction(query) {
+  if (!INTENTS) return null;
+  const di = INTENTS.drug_interaction_triggers || {};
+  const drugs = di.drugs || [];
+  const present = drugs.filter(d => query.includes(d));
+  if (present.length < 2) return null;
+  const found = [];
+  for (const inter of (di.interactions || [])) {
+    const a_hit = present.some(d => d.includes(inter.a) || inter.a.includes(d) || inter.a === "NSAID" && ["이부프로펜","나프록센","셀레콕시브","아스피린"].includes(d));
+    const b_hit = present.some(d => d.includes(inter.b) || inter.b.includes(d));
+    if (a_hit && b_hit) found.push(inter);
+  }
+  if (found.length === 0) return { drugs: present, interactions: [] };
+  return { drugs: present, interactions: found };
+}
+
+// ─── Sprint 8 W7: 약물 비교 감지 ─────────────────────────────────
+//   사용자 질문에 비교 의도("vs", "비교", "차이", "어떤 게") 또는
+//   비교쌍의 두 약물이 동시에 등장하면 비교 카드 노출
+function detectDrugComparison(query) {
+  if (!INTENTS) return null;
+  const dc = INTENTS.drug_comparison || {};
+  const pairs = dc.comparable_pairs || dc.pairs || [];
+  if (!pairs.length) return null;
+  const lowerQ = query.toLowerCase();
+  for (const pair of pairs) {
+    const drugs = pair.drugs || [];
+    const aliases = pair.aliases || [];
+    if (drugs.length < 2 || aliases.length < 2) continue;
+    // 각 약물군 = canonical 이름 + aliases 그룹 (둘 다 포함)
+    const groups = drugs.map((d, idx) => {
+      const aliasGroup = aliases[idx] || [];
+      return [d, ...aliasGroup];
+    });
+    const hits = groups.map(group => {
+      return group.find(name => lowerQ.includes(name.toLowerCase()));
+    });
+    if (hits.every(h => h)) {
+      return { pair, hits, intent: 'explicit' };
+    }
+  }
+  return null;
+}
+
+// ─── Sprint 8 W8: 운동 금기 감지 ─────────────────────────────────
+//   사용자가 "디스크 환자 스쿼트 해도 돼?" 같은 질문 시
+//   질환 키워드 + 운동 의도 동시 매칭하면 금기 카드 노출
+function detectExerciseContraindication(query, intents) {
+  if (!INTENTS) return null;
+  const ec = INTENTS.exercise_contraindications || {};
+  const rules = ec.rules || [];
+  if (!rules.length) return null;
+  // 운동 의도 또는 운동 키워드 확인
+  const hasExerciseIntent = (intents && intents.includes('exercise')) ||
+    /운동|스트레칭|체조|해도\s*돼|해도\s*되|할\s*수\s*있|괜찮|금기|스쿼트|점프|런지|데드리프트|벤치프레스|푸쉬업|플랭크|오버헤드|윗몸일으키기|달리기|줄넘기|등산|자전거/i.test(query);
+  if (!hasExerciseIntent) return null;
+  // 질환 키워드 매칭
+  const matched = [];
+  for (const rule of rules) {
+    const keys = rule.condition_keywords || rule.aliases || [];
+    for (const kw of keys) {
+      if (query.includes(kw)) {
+        matched.push({ rule, hit: kw });
+        break;
+      }
+    }
+  }
+  return matched.length ? matched : null;
+}
+
+// ─── Sprint 14 Step 3: 운동 일반 카탈로그 감지 ─────────────────────
+function detectExerciseCatalog(query) {
+  if (!INTENTS) return null;
+  const ec = INTENTS.exercise_catalog || {};
+  const exercises = ec.exercises || [];
+  const principles = ec.general_principles || [];
+  const lowerQ = query.toLowerCase();
+  const matchedEx = [];
+  for (const ex of exercises) {
+    const names = [ex.name.toLowerCase(), ...(ex.aliases || []).map(a => a.toLowerCase())];
+    if (names.some(n => lowerQ.includes(n))) {
+      matchedEx.push(ex);
+    }
+  }
+  const matchedPrinciples = [];
+  for (const p of principles) {
+    if (query.includes(p.title)) matchedPrinciples.push(p);
+  }
+  if (matchedEx.length === 0 && matchedPrinciples.length === 0) return null;
+  return { exercises: matchedEx, principles: matchedPrinciples };
+}
+
+// ─── Sprint 14 운동 카탈로그 감지 ──────────────────────────────────
+function detectExerciseCatalog(query) {
+  if (!INTENTS) return null;
+  const ec = INTENTS.exercise_catalog || {};
+  const movements = ec.movements || [];
+  const principles = ec.general_principles || [];
+  const matchedMovements = [];
+  for (const m of movements) {
+    for (const alias of (m.aliases || [])) {
+      if (query.includes(alias)) {
+        matchedMovements.push(m);
+        break;
+      }
+    }
+  }
+  const matchedPrinciples = [];
+  for (const p of principles) {
+    for (const kw of (p.matches || [])) {
+      if (query.includes(kw)) {
+        matchedPrinciples.push(p);
+        break;
+      }
+    }
+  }
+  if (!matchedMovements.length && !matchedPrinciples.length) return null;
+  return { movements: matchedMovements, principles: matchedPrinciples };
+}
+
+// ─── Sprint 13 W4: 인구학 맥락 감지 ────────────────────────────────
+// 안전: 진단 단정 절대 금지. 위험인자 정보 카드만 노출.
+function detectDemographicContext(query) {
+  if (!INTENTS) return null;
+  const dc = INTENTS.demographic_context || {};
+  const patterns = dc.patterns || [];
+  if (!patterns.length) return null;
+  const matched = [];
+  for (const p of patterns) {
+    if (p.match_all && !p.match_all.every(k => query.includes(k))) continue;
+    if (p.match_any && !p.match_any.some(k => query.includes(k))) continue;
+    if (p.match_any_age && !p.match_any_age.some(k => query.includes(k))) continue;
+    if (p.match_any_part && !p.match_any_part.some(k => query.includes(k))) continue;
+    matched.push({
+      id: p.id,
+      title: p.title,
+      note: p.note,
+      related_slug: p.related_slug
+    });
+  }
+  return matched.length ? matched : null;
+}
+
+// 한국어 조사 (긴 것부터 매칭)
+const KOREAN_PARTICLES = [
+  '에서는','에서도','에서','으로','에게서','에게','에는','에도','에',
+  '와는','과는','와','과','랑','이랑','처럼','같이','보다','마저',
+  '께서는','께서','이가','가','이','을','를',
+  '은','는','도','만','조차','마다','뿐','라도','이라도',
+  '의',
+  '이다','입니다','이며','이고','이고요','이에요','예요',
+  '있어요','있어','있다','없어','없다','있는','없는',
+  '한다','합니다','해요','한','할','함',
+  '다','요','지','네','야','어','아','냐',
+  '었다','었던','였다','였던','겠다','겠습니다',
+].sort((a, b) => b.length - a.length);
+
+function stripParticle(word) {
+  for (const p of KOREAN_PARTICLES) {
+    if (word.endsWith(p) && word.length - p.length >= 2) {
+      return word.slice(0, word.length - p.length);
+    }
+  }
+  return word;
+}
+
+function tokenize(text) {
+  const tokens = new Set();
+  const kor = text.match(/[가-힣]+/g) || [];
+  const eng = (text.toLowerCase().match(/[a-z]{2,}/g) || []);
+  for (const w of kor) {
+    if (w.length >= 2) tokens.add(w);              // 원형
+    const stem = stripParticle(w);
+    if (stem.length >= 2 && stem !== w) tokens.add(stem);  // 어간
+  }
+  eng.forEach(t => tokens.add(t));
+  return Array.from(tokens);
+}
+
+// ─── 부위 감지 키워드 (위키 본문 + 동의어 사전 결합) ───
+// 동의어 사전 fetch 후 BODY_PARTS 확장
+const BODY_PARTS = {
+  shoulder: ['어깨','회전근개','동결견','오십견','견관절','GH','임핀지먼트','RCRSP','이두건','painful arc','painfularc','견갑골','팔 들면','팔 못 들','Codman','pendulum','유착성 관절낭염','ROM 제한','Wand exercise','막대운동','Theraband','진자운동','석회화건염','석회화','Hawkins','Hawkins-Kennedy','Neer'],
+  neck:     ['목','경추','경부','C1','C2','C3','C4','C5','C6','C7','사경','torticollis','거북목','일자목','흉쇄유돌근','SCM','승모근','견갑거근','후두하근','trigger point','트리거 포인트','Spurling','Hoffman sign','Lhermitte','ACDF','TDR','myelopathy','척수병증','CSM','경추 디스크','경추 HIVD','C5-6','C6-7','담 결렸','담 결림','목이 안 돌아','목 안 돌아','팔 저림','강한 마사지 후','마사지 후 통증','chin tuck','턱 당기기','고개 숙이면','고개 숙일 때','머리 숙이면 손저','고개 숙이면 손이 저'],
+  thoracic: ['등','흉추','T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12','능형근','광배근','기립근','어깨뼈 사이','견갑간','후만증','곱사등','kyphoplasty','vertebroplasty','강직성 척추염','AS','Ankylosing Spondylitis','HLA-B27','Cat-cow','고양이 소 자세','폼롤러 흉추','Wall angels','벽 천사','Face pull','페이스 풀','옆구리','옆구리 위','갈비뼈 옆','옆구리 통','등이 결려','등 결려','가운데 등','등 가운데'],
+  hip:      ['고관절','엉덩이','사타구니','대퇴골','대퇴','비구','골반','FABER','FADIR','Patrick','Trendelenburg','AVN','무혈성 괴사','avascular necrosis','대퇴골두','FAI','Femoroacetabular Impingement','대퇴 점액낭염','Trochanteric bursitis','대전자','이상근','piriformis','Sports hernia','내전근','THA','Total Hip Arthroplasty','고관절 골절','Hip fracture','대퇴골 근위부 골절','clamshell','사이드 클램쉘'],
+  headache: ['두통','머리 아파','머리가 아','긴장형','tension-type','근막성 두통','myofascial headache','경부성 두통','cervicogenic','자세성 두통','후두신경통','occipital neuralgia','MOH','약물 과용 두통','medication overuse','ICHD','편두통 감별','테니스공 self-release','후두하근 이완'],
+  calf:     ['종아리','하퇴부','비복근','gastrocnemius','가자미근','soleus','정강이','경골','tibia','비골','fibula','신스플린트','shin splint','전경골근','DVT','심부정맥혈전증','deep vein thrombosis','Homan','Wells score','폐색전증','정맥류','Thompson test','정강이 안쪽','정강이 화끈','종아리 쥐남','야간 근경련','쥐가 나','다리 쥐','쥐가 계속','calf strain','비복근 파열'],
+  finger:   ['손가락','엄지','검지','중지','약지','소지','새끼손가락','MCP','PIP','DIP','방아쇠수지','trigger finger','Mallet','Jersey finger',"Boxer's fracture",'boxer 골절','복서 골절','Heberden','Bouchard','Kanavel',"Skier's thumb",'Gamekeeper','Stener','엄지 척측','류마티스 관절염','RA','rheumatoid arthritis','swan neck','boutonniere','ulnar deviation','척측 편위','아침 강직','손가락 잠김','탁 소리 손가락','DMARDs','주먹 쥐기','주먹 못 쥐','악력 약화'],
+  sij:      ['천장관절','sacroiliac','SI joint','SIJ','천골','장골','강직성 척추염','Ankylosing Spondylitis','AS','HLA-B27','axSpA','spondyloarthritis','MCP/PIP','FABER','Patrick','Compression test','Distraction test','Gaenslen','Thigh thrust','천장관절염','sacroiliitis','임신 골반 통증','임신 천장관절','릴랙신','엉덩이 깊은 통증','엉덩이 깊은 안쪽','엉덩이 안쪽 깊','한 발로 서기','골반 한쪽'],
+  knee:     ['무릎','슬관절','반월상','연골판','슬개','ACL','PCL','MCL','LCL','PFPS','러너스니','runners knee','점퍼스니','jumpers knee','메니스커스','meniscus','OA','관절염','슬개대퇴','PRP','히알루론산','직거상','Bucket handle','bucket handle','Apley','McMurray','Lachman','골관절염','결정성 관절염','통풍','가성통풍'],
+  ankle:    ['발목','거골','족관절','아킬레스','achilles','CAI','PTTD','PTOA','외상 후 관절염','Broström','접합 수술','발목 인대 수술','삠','접질림','염좌','alphabet','후경골건','거골 골연골','OCL','Thompson test','Ottawa'],
+  foot:     ['발바닥','발뒤꿈치','뒤꿈치','뒷꿈치','족저','중족','족지','첫 걸음','첫걸음','디딜 때마다','발 옆쪽','발 가장자리','발끝 감각','발끝 저','당뇨발','발가락','무지외반','당뇨발','모턴','Morton','plantar','족저근막','아침 첫걸음','Haglund','중족골 피로골절'],
+  elbow:    ['팔꿈치','주관절','외측 상과','내측 상과','lateral epicondyle','medial epicondyle','테니스엘보','tennis elbow','골프엘보','골퍼스엘보','Cubital tunnel','주관절 터널','큐비탈 터널','척골신경','ulnar nerve','Cozen','Mill test','UCL','Tommy John','olecranon','점액낭염','팔꿈치 점액낭','외측 상과염','내측 상과염','epicondylitis','새끼손가락 저림','약지 저림','팔꿈치 굽힐 때 새끼','팔꿈치 굽힐 때마다','편심 강화','eccentric loading','ESWT'],
+  wrist:    ['손목','수근','수근관','carpal','CTS','정중신경','드퀘르벵','Quervain','TFCC','요수근','방아쇠수지','방아쇠 수지','trigger finger','Colles','주상골','scaphoid','Kanavel','엄지','엄지 CMC','Phalen','Tinel','Finkelstein','원위요골','화농성 건초염','엄지 손목','엄지 손목쪽','엄지 손목 쪽'],
+  lowback:  ['허리','요추','척추','디스크','좌골','sciatica','마미','협착','HIVD','요통','axSpA','강직성','신경원성 파행','후관절증후군','비특이성 요통','경막외','epidural','TFESI','신경근 차단','데드버그','버드독','코어 강화','SLR','압박골절','cauda equina']
+};
+
+function detectBodyPart(queryTokens, queryRaw) {
+  const lowerRaw = (queryRaw || '').toLowerCase();
+  // Sprint 13: 가장 긴 매칭 키워드 우선 (예: '엄지 CMC' > '관절염')
+  // 1차: raw 문자열 substring 중 longest 채택
+  let best = null;  // [length, slug]
+  for (const [slug, keywords] of Object.entries(BODY_PARTS)) {
+    for (const kw of keywords) {
+      const kwLower = kw.toLowerCase();
+      if (lowerRaw.includes(kwLower)) {
+        if (best === null || kw.length > best[0]) best = [kw.length, slug];
+      }
+    }
+  }
+  if (best) return best[1];
+  // 2차: 토큰 정확 일치 중 longest
+  best = null;
+  for (const [slug, keywords] of Object.entries(BODY_PARTS)) {
+    for (const kw of keywords) {
+      const kwLower = kw.toLowerCase();
+      for (const qt of queryTokens) {
+        if (qt.toLowerCase() === kwLower) {
+          if (best === null || kw.length > best[0]) best = [kw.length, slug];
+          break;
+        }
+      }
+    }
+  }
+  return best ? best[1] : null;
+}
+
+// ─── 약물 키워드 (Sprint 12: 단일 약물명 검색 강화) ─────────
+// 쿼리에 이 키워드가 나타나면 약물 카테고리 청크에 +6 부스트.
+const DRUG_KEYWORDS = [
+  '이부프로펜','나프록센','디클로페낙','케토프로펜','ibuprofen','naproxen',
+  '부루펜','낙센','탁센','ibu','advil',
+  '셀레콕시브','쎄레브렉스','celecoxib','celebrex',
+  '아세트아미노펜','타이레놀','paracetamol','acetaminophen',
+  '트라마돌','tramadol','울트라셋','트리돌',
+  '와파린','warfarin','아스피린','aspirin',
+  '듀록세틴','duloxetine','심발타',
+  '가바펜틴','gabapentin','프레가발린','pregabalin','리리카',
+  '에페리손','톨페리손','사이클로벤자프린',
+  'PPI','오메프라졸','에소메프라졸','란소프라졸',
+  '스테로이드','코르티코','트리암시놀론','덱사메타손',
+  '히알루론산','PRP','PRF',
+  '글루코사민','콘드로이틴',
+  '케토톱','볼타렌','트라스트','겔','패치',
+  'NSAID','OTC','진통제','소염제','해열제','근이완제'
+];
+
+function isDrugQuery(queryTokens, queryRaw) {
+  const rawLow = (queryRaw || '').toLowerCase();
+  for (const kw of DRUG_KEYWORDS) {
+    if (rawLow.includes(kw.toLowerCase())) return true;
+  }
+  for (const qt of queryTokens) {
+    for (const kw of DRUG_KEYWORDS) {
+      if (qt.toLowerCase() === kw.toLowerCase()) return true;
+    }
+  }
+  return false;
+}
+
+function score(chunk, queryTokens, detectedBodySlug, negatedCategories, timeStage, drugQuery, redFlagActive) {
+  if (!queryTokens.length) return 0;
+  const headingTokens = new Set(tokenize(chunk.heading));
+  const bodySet = new Set(chunk.tokens);
+  const text = chunk.text || '';
+  const heading = chunk.heading || '';
+  // (A) 부위 일치 부스트 — 가장 강함
+  const partMatch = detectedBodySlug && chunk.slug === detectedBodySlug;
+  const partBoost = partMatch ? 10 : 0;
+  if (detectedBodySlug && chunk.slug !== detectedBodySlug) {
+    return 0;
+  }
+  // (D) Sprint 7 — 부정된 카테고리 페널티
+  //   사용자가 "수술 말고"라고 하면 chunk.cat이 surgery인 결과는 감점
+  //   단, emergency 카테고리는 안전상 절대 페널티 안 줌
+  if (negatedCategories && negatedCategories.length > 0) {
+    const chunkCat = categorize(chunk);
+    if (chunkCat !== 'emergency' && negatedCategories.includes(chunkCat)) {
+      // 큰 페널티지만 완전 제거는 안 함 (사용자 질문 일부가 매칭될 수도)
+      return Math.max(0, _calcRawScore(chunk, queryTokens) - 15);
+    }
+  }
+  // (B) 운동 질문 부스트 + Sprint 8 W5 시간 단계 부스트
+  const EXERCISE_HINTS = ['운동', '스트레칭', '데드버그', '버드독', '슬라이드',
+    '직거상', 'set', 'tilt', 'curl', 'glide', 'squat', 'bridge', 'pendulum',
+    'theraband', 'alphabet'];
+  let exerciseQuery = false;
+  for (const qt of queryTokens) {
+    for (const h of EXERCISE_HINTS) {
+      if (qt === h || qt.includes(h) || h.includes(qt)) { exerciseQuery = true; break; }
+    }
+    if (exerciseQuery) break;
+  }
+  let stageBoost = exerciseQuery && /단계/.test(heading) ? 4 : 0;
+  // W5 시간 표현 → 해당 단계 섹션 추가 부스트
+  // acute → 1단계 / subacute → 2단계 / chronic → 3·4단계
+  if (timeStage) {
+    if (timeStage.stage === 'acute' && /1단계|급성기/.test(heading)) stageBoost += 6;
+    else if (timeStage.stage === 'subacute' && /2단계|아급성|ROM/i.test(heading)) stageBoost += 6;
+    else if (timeStage.stage === 'chronic' && /(3단계|4단계|만성|근력|코어\s*강화|복귀)/i.test(heading)) stageBoost += 6;
+    else if (timeStage.stage === 'trauma' && /(외상|즉시|Red\s*Flag|응급)/i.test(heading)) stageBoost += 8;
+  }
+  const SYMPTOM_HINTS = ['통증', '아파', '아프', '저림', '저린', '뻐근', '시큰',
+    '잠김', '잠겨', '붓고', '부어', '부종', '거슬리', '욱신', '찌릿', '쑤시',
+    '약해져', '약화', '들어올', '굽힐', '펼때', '들때', '끊어', '삐어', '삐었'];
+  let symptomQuery = false;
+  for (const qt of queryTokens) {
+    for (const h of SYMPTOM_HINTS) {
+      if (qt === h || qt.includes(h) || h.includes(qt)) { symptomQuery = true; break; }
+    }
+    if (symptomQuery) break;
+  }
+  const diagSection = /^(1\.|1\s|2\.|2\s|흔한|감별|증상|Red\s*Flag|자가)/i.test(heading);
+  const symptomBoost = symptomQuery && diagSection ? 6 : 0;
+  // Sprint 12 약물 부스트 — 약물 쿼리이면 약물 카테고리 청크에 +6
+  const drugBoost = (drugQuery && categorize(chunk) === 'medication') ? 6 : 0;
+  // Sprint 13 Red Flag 부스트 — 응급 트리거 발동 시 emergency 청크에 +8
+  const redFlagBoost = (redFlagActive && categorize(chunk) === 'emergency') ? 8 : 0;
+  let s = partBoost + stageBoost + symptomBoost + drugBoost + redFlagBoost;
+  for (const qt of queryTokens) {
+    if (headingTokens.has(qt)) s += 8;
+    const escaped = qt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(escaped, 'gi');
+    const matches = text.match(re);
+    const tf = matches ? matches.length : 0;
+    if (tf > 0) s += 1 + Math.log(1 + tf) * 1.5;
+    for (const ht of headingTokens) if (ht.includes(qt) && ht !== qt) s += 3;
+    for (const bt of bodySet) if (bt.includes(qt) && bt !== qt) s += 0.3;
+  }
+  return s;
+}
+
+// 부정 페널티 계산용 — 부정 무시한 원 점수
+function _calcRawScore(chunk, queryTokens) {
+  const headingTokens = new Set(tokenize(chunk.heading));
+  const bodySet = new Set(chunk.tokens);
+  const text = chunk.text || '';
+  let s = 0;
+  for (const qt of queryTokens) {
+    if (headingTokens.has(qt)) s += 8;
+    const escaped = qt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(escaped, 'gi');
+    const matches = text.match(re);
+    const tf = matches ? matches.length : 0;
+    if (tf > 0) s += 1 + Math.log(1 + tf) * 1.5;
+    for (const ht of headingTokens) if (ht.includes(qt) && ht !== qt) s += 3;
+    for (const bt of bodySet) if (bt.includes(qt) && bt !== qt) s += 0.3;
+  }
+  return s;
+}
+
+// ─── 응급 신호 감지 (의료 위키 핵심) ───
+const EMERGENCY_KEYWORDS = [
+  '대소변','회음부','마미','마비','감각소실','감각저하',
+  '발열','화농','악취','당뇨발','고름','감염성','감염성 관절염',
+  '뚝','외상','변형','체중부하','즉시',
+  '진행성','약화','쇠약','괄약근',
+  '야간통','체중감소','종양',
+  '호흡곤란','흉통','가슴까지','가슴 통증',
+  '잠겨서','잠겼','잠긴','잠김','안 펴','안펴','locking',
+  'kanavel','Kanavel',
+  '점차 약해','점점 약해','점점 없어','힘이 빠',
+  '안장','안장 감각','소변이 안 나','소변 안 나','소변 장애','대변 장애',
+  '엉덩이 감각','엉덩이가 무감각',
+  '파열 의심','아킬레스 파열','수동 신전'
+];
+
+function detectEmergency(queryTokens, queryRaw) {
+  const lowerRaw = (queryRaw || '').toLowerCase();
+  for (const kw of EMERGENCY_KEYWORDS) {
+    if (lowerRaw.includes(kw.toLowerCase())) return true;
+    for (const qt of queryTokens) {
+      if (qt.toLowerCase().includes(kw.toLowerCase())) return true;
+    }
+  }
+  return false;
+}
+
+// ─── 청크 카테고리 자동 분류 (헤더 기반) ───
+function categorize(chunk) {
+  const h = chunk.heading || '';
+  // 응급 우선
+  if (/마미|Red\s*Flag|Kanavel|응급|즉시\s*의뢰|위급/i.test(h)) return 'emergency';
+  if (/^1\.|흔한\s*증상|감별진단|진단/i.test(h)) return 'diagnosis';
+  if (/^2\.|자가\s*체크/i.test(h)) return 'selfcheck';
+  if (/^3\./i.test(h)) return 'examination';
+  if (/약물|상호작용|일반의약품|처방약|주사|OTC/i.test(h)) return 'medication';
+  if (/물리치료|모달리티|체외충격파|TENS|도수치료/i.test(h)) return 'physiotherapy';
+  if (/운동|스트레칭|단계|재활|복귀/i.test(h)) return 'exercise';
+  if (/수술|봉합|재건|치환|절제술|관절경/i.test(h)) return 'surgery';
+  if (/출처|참고|References/i.test(h)) return 'reference';
+  return 'general';
+}
+
+const CATEGORY_LABELS = {
+  emergency: { icon: '🚨', name: '응급', color: '#dc2626' },
+  diagnosis: { icon: '📋', name: '진단', color: '#1d4ed8' },
+  selfcheck: { icon: '✋', name: '자가 체크', color: '#7c3aed' },
+  examination: { icon: '🔬', name: '검사', color: '#0891b2' },
+  medication: { icon: '💊', name: '약물', color: '#059669' },
+  physiotherapy: { icon: '🏥', name: '물리치료', color: '#0284c7' },
+  exercise: { icon: '🦾', name: '운동·재활', color: '#7c2d12' },
+  surgery: { icon: '⚕️', name: '수술', color: '#9333ea' },
+  reference: { icon: '📚', name: '참고문헌', color: '#6b7280' },
+  general: { icon: '📄', name: '본문', color: '#374151' }
+};
+
+// ─── 검색 함수 v2 — 다양화 + 응급 우선 + 부정 카테고리 처리 ───
+// 반환: [{chunk, s, cat}, ...] 배열
+// preferRawForBody: 부위 감지 시 raw 쿼리 우선 (환자표현 확장으로 인한 오인식 방지)
+function search(query, topK = 6, negatedCategories = [], timeStage = null, preferRawForBody = null, redFlagActive = false) {
+  if (!INDEX) return [];
+  const qTokens = tokenize(query);
+  if (!qTokens.length) return [];
+  // 부위 감지: raw 우선 → 없으면 enriched 폴백
+  let detectedSlug = null;
+  if (preferRawForBody) {
+    const rawTokens = tokenize(preferRawForBody);
+    detectedSlug = detectBodyPart(rawTokens, preferRawForBody);
+  }
+  if (!detectedSlug) {
+    detectedSlug = detectBodyPart(qTokens, query);
+  }
+  const isEmergency = detectEmergency(qTokens, query);
+  // Sprint 12 — 약물 쿼리 감지 (raw 우선 → enriched 폴백)
+  const drugQuery = isDrugQuery(qTokens, preferRawForBody || query);
+
+  let scored = INDEX.chunks
+    .map(c => ({
+      chunk: c,
+      s: score(c, qTokens, detectedSlug, negatedCategories, timeStage, drugQuery, redFlagActive),
+      cat: categorize(c)
+    }))
+    .filter(x => x.s > 0)
+    .sort((a, b) => b.s - a.s);
+
+  if (!scored.length) return [];
+
+  const selected = [];
+  const catCount = {};
+  if (isEmergency) {
+    const emergCandidates = scored.filter(x => x.cat === 'emergency').slice(0, 2);
+    selected.push(...emergCandidates);
+    emergCandidates.forEach(x => x._used = true);
+  }
+  for (const item of scored) {
+    if (item._used) continue;
+    if (selected.length >= topK) break;
+    const cat = item.cat;
+    if ((catCount[cat] || 0) >= 2) continue;
+    selected.push(item);
+    catCount[cat] = (catCount[cat] || 0) + 1;
+  }
+  return selected.slice(0, topK);
+}
+
+// ─── UI 렌더링 ──────────────────────────────────────────────
+const chat = document.getElementById('chat');
+const form = document.getElementById('chatform');
+const qInput = document.getElementById('q');
+const sendBtn = document.getElementById('send');
+let firstQuery = true;
+
+function addUser(text) {
+  if (firstQuery) {
+    chat.innerHTML = '';
+    firstQuery = false;
+  }
+  const div = document.createElement('div');
+  div.className = 'msg user';
+  div.innerHTML = `<div class="bubble">${escapeHTML(text)}</div>`;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function addBot(ctx) {
+  const { query, normalized, typos, expansions, redFlag, drugHit, intents,
+          results, byIntent, qTokens,
+          negated, compoundParts, patientPhrases, loanwords,
+          timeStage, drugCompare, exerciseContraindication, demographic, exerciseCatalog } = ctx;
+  const div = document.createElement('div');
+  div.className = 'msg bot';
+  let html = '<div class="bubble">';
+
+  // 헤더 — 부위 감지 + 의도 + 시간 단계
+  const detectedSlug = detectBodyPart(qTokens, normalized);
+  const partLabel = {shoulder:'어깨', knee:'무릎', ankle:'발목', foot:'발바닥', wrist:'손목', lowback:'허리'};
+  const intentLabel = {diagnosis:'🩺진단', treatment:'💊치료', drug:'💊약물', exercise:'🏃운동', surgery:'🔪수술', emergency:'🚨응급'};
+  const stageLabel = {acute:'⏱️급성기', subacute:'⏱️아급성기', chronic:'⏱️만성기', trauma:'⚠️외상직후'};
+  let headerParts = [];
+  if (detectedSlug) headerParts.push(`<span class="part-tag">${partLabel[detectedSlug]}</span>`);
+  for (const i of intents) {
+    if (intentLabel[i]) headerParts.push(`<span class="intent-tag">${intentLabel[i]}</span>`);
+  }
+  if (timeStage && stageLabel[timeStage.stage]) {
+    headerParts.push(`<span class="intent-tag">${stageLabel[timeStage.stage]}</span>`);
+  }
+  html += `<div class="heading">${headerParts.join(' ')} 검색 결과</div>`;
+
+  // 정규화 정보
+  const normParts = [];
+  if (typos && typos.length) {
+    normParts.push(`🔤 오타 교정: ${typos.map(t => `${escapeHTML(t.from)} → <b>${escapeHTML(t.to)}</b>`).join(', ')}`);
+  }
+  if (patientPhrases && patientPhrases.length) {
+    normParts.push(`💬 환자 표현 인식: ${patientPhrases.map(p =>
+      `"${escapeHTML(p.phrase)}" → <b>${p.medTerms.slice(0,2).map(escapeHTML).join('·')}</b>`
+    ).join(', ')}`);
+  }
+  if (loanwords && loanwords.length) {
+    normParts.push(`🌐 외래어 변환: ${loanwords.map(l =>
+      `${escapeHTML(l.loan)} → <b>${l.terms.slice(0,2).map(escapeHTML).join('·')}</b>`
+    ).join(', ')}`);
+  }
+  if (timeStage) {
+    const stageDescMap = {
+      acute: '급성기(0~2주) — 1단계 운동·염증 제어 우선',
+      subacute: '아급성기(2~6주) — 2단계 ROM 회복 우선',
+      chronic: '만성기(6주~) — 3·4단계 근력·복귀 운동 우선',
+      trauma: '외상 직후 — Red Flag 확인 우선'
+    };
+    normParts.push(`⏱️ 시간 표현 인식: "${escapeHTML(timeStage.hit)}" → <b>${stageDescMap[timeStage.stage] || timeStage.stage}</b>`);
+  }
+  if (negated && negated.length) {
+    const catLabel = {surgery:'수술', medication:'약물', exercise:'운동', diagnosis:'진단'};
+    normParts.push(`🚫 부정 표현 인식: <b>${negated.map(n => catLabel[n.category] || n.category).join(', ')}</b> 결과 제외`);
+  }
+  if (compoundParts) {
+    normParts.push(`🔀 복수 부위 감지: <b>${compoundParts.note}</b>`);
+  }
+  if (expansions && expansions.length) {
+    normParts.push(`🔗 동의어 확장: ${expansions.slice(0, 6).map(e => `<b>${escapeHTML(e)}</b>`).join(', ')}${expansions.length > 6 ? ' …' : ''}`);
+  }
+  if (normParts.length) {
+    html += '<div class="norm-info">' + normParts.map(p => `<div>${p}</div>`).join('') + '</div>';
+  }
+
+  // 💡 Sprint 13 W4 인구학 맥락 카드 — Red Flag 다음·운동 금기 위
+  //    안전 원칙(감사역 확정): "~의 위험인자가 보고됩니다" 형태만, 진단 단정 절대 금지
+  if (demographic && demographic.length) {
+    html += `<div class="card card-yellow">
+      <div class="card-head">💡 참고 정보 (인구학적 위험인자)</div>
+      <div class="card-body">`;
+    for (const d of demographic) {
+      html += `
+        <div style="margin-bottom:0.6rem; padding:0.5rem; background:#fffbeb; border-radius:6px; border-left:3px solid #eab308;">
+          <div style="font-weight:600; color:#92400e; margin-bottom:0.25rem;">${escapeHTML(d.title || '')}</div>
+          <div style="color:#525252; line-height:1.5;">${escapeHTML(d.note || '')}</div>
+        </div>`;
+    }
+    html += `<div style="font-size:0.8rem; color:#666; margin-top:0.4rem;">
+      ⚠️ 위 정보는 인구학 그룹별 위험인자 보고이며, <b>진단이 아닙니다</b>.
+      증상은 환자마다 다르므로 정확한 평가는 의료진과 상담하세요.
+    </div></div></div>`;
+  }
+
+  // 💪 Sprint 14 운동 카탈로그 카드 — 인구학 카드 다음·운동 금기 위
+  //   안전 핵심: 운동명별 금기 환자군을 함께 노출
+  if (exerciseCatalog && (exerciseCatalog.movements.length || exerciseCatalog.principles.length)) {
+    html += `<div class="card" style="background:#ecfeff; border-left:4px solid #06b6d4;">
+      <div class="card-head" style="color:#0e7490;">💪 운동 안전 가이드</div>
+      <div class="card-body">`;
+    for (const m of exerciseCatalog.movements) {
+      const partLabelMap = {shoulder:'어깨', knee:'무릎', ankle:'발목', foot:'발바닥', wrist:'손목', lowback:'허리'};
+      html += `
+        <div style="margin-bottom:0.7rem; padding:0.5rem; background:#cffafe; border-radius:6px;">
+          <div style="font-weight:600; color:#0c4a6e; margin-bottom:0.3rem;">
+            ${escapeHTML(m.name)} — 주 영향 부위: ${partLabelMap[m.primary_slug] || m.primary_slug}
+          </div>
+          <div style="font-size:0.88rem; color:#444; margin-bottom:0.3rem;">
+            <b>대상 근육</b>: ${escapeHTML(m.muscles)}
+          </div>
+          <div style="font-size:0.88rem; color:#444; margin-bottom:0.3rem;">
+            <b>자세 팁</b>: ${escapeHTML(m.form_tips)}
+          </div>
+          <div style="font-size:0.88rem; color:#7c2d12; background:#fef3c7; padding:0.3rem 0.5rem; border-radius:4px; margin-bottom:0.3rem;">
+            <b>⚠️ 금기 / 주의 환자군</b>:
+            <ul style="margin:0.2rem 0 0 1rem; padding:0;">
+              ${m.avoid_conditions.map(c => `<li>${escapeHTML(c)}</li>`).join('')}
+            </ul>
+          </div>
+          <div style="font-size:0.85rem; color:#525252;">
+            <b>안전 대상</b>: ${escapeHTML(m.safe_for)}
+          </div>
+        </div>`;
+    }
+    for (const p of exerciseCatalog.principles) {
+      html += `
+        <div style="margin-bottom:0.5rem; padding:0.4rem; background:#cffafe; border-radius:6px;">
+          <div style="font-weight:600; color:#0c4a6e;">📋 ${escapeHTML(p.title)}</div>
+          <div style="color:#525252; font-size:0.88rem;">${escapeHTML(p.note)}</div>
+        </div>`;
+    }
+    html += `<div style="font-size:0.8rem; color:#666; margin-top:0.4rem;">
+      ⚠️ 위 정보는 일반 운동 안전 가이드입니다. 부상·기저질환자는 시작 전 의료진 상담을 권고합니다.
+    </div></div></div>`;
+  }
+
+  // 🚨 W8 운동 금기 카드 — Red Flag보다 아래·일반 결과보다 위 (안전 안내이지만 응급은 아님)
+  if (exerciseContraindication && exerciseContraindication.length) {
+    html += `<div class="card card-yellow">
+      <div class="card-head">⚠️ 운동 시 주의사항 (질환별 금기·권장)</div>
+      <div class="card-body">`;
+    for (const item of exerciseContraindication) {
+      const r = item.rule;
+      html += `
+        <div style="margin-bottom:0.6rem; padding:0.4rem; background:#fffbeb; border-radius:6px;">
+          <div style="font-weight:600; color:#92400e;">${escapeHTML(item.hit)} 환자 운동 가이드</div>
+          <table class="interaction-table">
+            <thead><tr><th style="width:30%;">피해야 할 동작</th><th>권장 동작</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>${(r.avoid || []).map(escapeHTML).join('<br>')}</td>
+                <td>${(r.safe || []).map(escapeHTML).join('<br>')}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="font-size:0.85rem; color:#525252; margin-top:0.3rem;">
+            <b>이유</b>: ${escapeHTML(r.reason || '-')}<br>
+            <b>출처</b>: ${escapeHTML(r.source || r.sources?.join('; ') || '-')}
+          </div>
+        </div>`;
+    }
+    html += `<div style="font-size:0.8rem; color:#666; margin-top:0.4rem;">
+      ⚠️ 본 정보는 일반 권고이며, 개인 상태에 따라 다를 수 있습니다. 운동 시작 전 담당의·물리치료사와 상의하세요.
+    </div></div></div>`;
+  }
+
+  // 🏃 Sprint 14 Step 3 — 운동 일반 카탈로그 카드
+  if (exerciseCatalog && (exerciseCatalog.exercises.length || exerciseCatalog.principles.length)) {
+    const partLabelMap = {shoulder:'어깨', knee:'무릎', ankle:'발목', foot:'발바닥', wrist:'손목', lowback:'허리'};
+    html += `<div class="card card-yellow">
+      <div class="card-head">🏃 운동 정보 (관련 부위·금기·폼)</div>
+      <div class="card-body">`;
+    for (const ex of (exerciseCatalog.exercises || [])) {
+      const partName = partLabelMap[ex.primary_slug] || '';
+      html += `
+        <div style="margin-bottom:0.7rem; padding:0.5rem; background:#fffbeb; border-radius:6px; border-left:3px solid #eab308;">
+          <div style="font-weight:600; color:#92400e; margin-bottom:0.3rem;">
+            ${escapeHTML(ex.name)} <span style="font-weight:normal; color:#888; font-size:0.9rem;">· 주 관련: ${escapeHTML(partName)}</span>
+          </div>
+          <div style="font-size:0.9rem; line-height:1.5;">
+            <b>주 사용 근육</b>: ${(ex.muscles || []).map(escapeHTML).join(', ')}<br>
+            <b style="color:#b91c1c;">피해야 할 상태</b>: ${(ex.avoid_conditions || []).map(escapeHTML).join(', ')}<br>
+            <b style="color:#16a34a;">안전 적용</b>: ${(ex.safe_for || []).map(escapeHTML).join(', ')}<br>
+            <b>폼 팁</b>: ${escapeHTML(ex.form_tips || '')}
+          </div>
+        </div>`;
+    }
+    for (const p of (exerciseCatalog.principles || [])) {
+      html += `
+        <div style="margin-bottom:0.6rem; padding:0.5rem; background:#fef3c7; border-radius:6px;">
+          <div style="font-weight:600; color:#92400e;">📌 ${escapeHTML(p.title)}</div>
+          <div style="color:#525252; line-height:1.5;">${escapeHTML(p.advice)}</div>
+        </div>`;
+    }
+    html += `<div style="font-size:0.8rem; color:#666; margin-top:0.4rem;">
+      ⚠️ 일반 가이드입니다. 특정 질환(파열·재건 후 등)에서는 위 운동도 금기일 수 있으니 의료진과 상의하세요.
+    </div></div></div>`;
+  }
+
+  // 💊 W7 약물 비교 카드
+  if (drugCompare && drugCompare.pair) {
+    const p = drugCompare.pair;
+    const drugNames = (p.drugs || []).map(escapeHTML);
+    html += `<div class="card card-blue">
+      <div class="card-head">💊 약물 비교: ${drugNames.join(' vs ')}</div>
+      <div class="card-body">
+        <div style="margin-bottom:0.5rem;">${escapeHTML(p.summary || '')}</div>
+        <table class="interaction-table">
+          <thead><tr><th>항목</th>${drugNames.map(n => `<th>${n}</th>`).join('')}</tr></thead>
+          <tbody>`;
+    for (const row of (p.table || [])) {
+      const cells = drugNames.map(name => escapeHTML(row[name] || row[p.drugs.find(d => name.includes(d) || d.includes(name))] || '-'));
+      html += `<tr><td><b>${escapeHTML(row['항목'] || '')}</b></td>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`;
+    }
+    const sources = p.sources || (p.source ? [p.source] : []);
+    html += `</tbody></table>
+        <div style="font-size:0.8rem; color:#666; margin-top:0.5rem;">
+          <b>출처</b>: ${sources.map(escapeHTML).join('; ')}<br>
+          ⚠️ 실제 선택은 환자 상태(간·신·심혈관·복용 약물)에 따라 다릅니다. 의사·약사와 상의하세요.
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // 🚨 Red Flag 카드 — 최상단(응급)
+  if (redFlag) {
+    const linkHtml = redFlag.slug
+      ? `<a href="../body/${slugToFilename(redFlag.slug)}.html" target="_blank" rel="noopener">관련 페이지 보기 →</a>`
+      : '';
+    html += `
+      <div class="card card-red">
+        <div class="card-head">🚨 ${escapeHTML(redFlag.title)}</div>
+        <div class="card-body">${escapeHTML(redFlag.advice)}</div>
+        <div class="card-foot">감지된 키워드: ${redFlag.hits.map(escapeHTML).join(', ')} ${linkHtml}</div>
+      </div>`;
+  }
+
+  // 💊 약물 상호작용 카드
+  if (drugHit && drugHit.interactions.length > 0) {
+    html += `<div class="card card-yellow">
+      <div class="card-head">💊 약물 상호작용 ${drugHit.drugs.length}개 감지</div>
+      <div class="card-body">
+        <div style="margin-bottom:0.5rem;">감지된 약물: <b>${drugHit.drugs.map(escapeHTML).join(', ')}</b></div>
+        <table class="interaction-table">
+          <thead><tr><th>약물 A</th><th>약물 B</th><th>위험</th><th>내용</th></tr></thead>
+          <tbody>`;
+    for (const it of drugHit.interactions) {
+      const sev = {high:'🔴 높음', moderate:'🟡 중등', low:'🟢 낮음'}[it.severity] || it.severity;
+      html += `<tr><td>${escapeHTML(it.a)}</td><td>${escapeHTML(it.b)}</td><td>${sev}</td><td>${escapeHTML(it.text)}</td></tr>`;
+    }
+    html += `</tbody></table>
+        <div style="font-size:0.8rem;color:#666;margin-top:0.4rem;">⚠️ 실제 복용 전 의사·약사와 상의하세요.</div>
+      </div>
+    </div>`;
+  }
+
+  // 의도별 결과 카드 4개 (응급·진단·약물·운동·수술)
+  const cardSpec = [
+    { key: 'emergency', label: '🚨 응급·Red Flag', cls: 'card-red-light' },
+    { key: 'diagnosis', label: '🩺 의심 질환·감별진단', cls: 'card-blue' },
+    { key: 'drug', label: '💊 약물·주사', cls: 'card-green' },
+    { key: 'exercise', label: '🏃 재활운동·스트레칭', cls: 'card-purple' },
+    { key: 'surgery', label: '🔪 수술 적응증', cls: 'card-gray' },
+  ];
+
+  if (!results.length) {
+    html += `<div class="card card-gray"><div class="card-body">"${escapeHTML(query)}"에 대한 결과를 찾지 못했습니다.</div></div>`;
+  } else {
+    for (const spec of cardSpec) {
+      const items = byIntent[spec.key] || [];
+      if (!items.length) continue;
+      html += `<div class="card ${spec.cls}">
+        <div class="card-head">${spec.label} (${items.length})</div>
+        <div class="card-body">`;
+      for (const { chunk, s } of items.slice(0, 3)) {
+        const url = '../' + chunk.url;
+        const headingH = highlight(chunk.title + ' · ' + chunk.heading, qTokens);
+        const textH = highlight(truncate(chunk.text, 240), qTokens);
+        html += `
+          <div class="result-item">
+            <div class="result-title"><a href="${url}" target="_blank" rel="noopener">${headingH}</a></div>
+            <div class="body">${textH}</div>
+            <div class="meta">관련도 ${s.toFixed(1)}</div>
+          </div>`;
+      }
+      html += `</div></div>`;
+    }
+    // 기타 카드
+    const etc = byIntent.etc || [];
+    if (etc.length) {
+      html += `<div class="card card-gray">
+        <div class="card-head">📌 기타 관련 (${etc.length})</div>
+        <div class="card-body">`;
+      for (const { chunk, s } of etc.slice(0, 2)) {
+        const url = '../' + chunk.url;
+        const headingH = highlight(chunk.title + ' · ' + chunk.heading, qTokens);
+        html += `<div class="result-item">
+          <div class="result-title"><a href="${url}" target="_blank" rel="noopener">${headingH}</a></div>
+          <div class="meta">관련도 ${s.toFixed(1)}</div>
+        </div>`;
+      }
+      html += `</div></div>`;
+    }
+  }
+
+  html += `
+    <div class="footer-note">
+      ⚠️ 본 답변은 위키 본문 발췌입니다. 본 위키는 진단·처방을 제공하지 않습니다.
+      증상이 지속·악화되면 정형외과 전문의 진료를 받으세요.
+    </div>
+  </div>`;
+  div.innerHTML = html;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function slugToFilename(slug) {
+  return ({shoulder:'01_shoulder', knee:'02_knee', ankle:'03_ankle',
+           foot:'04_foot', wrist:'05_wrist', lowback:'06_lowback'})[slug] || slug;
+}
+
+function escapeHTML(s) {
+  return s.replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+function truncate(s, n) {
+  return s.length > n ? s.slice(0, n) + '…' : s;
+}
+
+// ─── 검색어 매칭 부분 하이라이트 ───
+function highlight(text, queryTokens) {
+  let escaped = escapeHTML(text);
+  // 길이 긴 토큰부터 적용 (부분 일치 우선순위)
+  const sorted = [...queryTokens].sort((a, b) => b.length - a.length);
+  for (const tok of sorted) {
+    if (tok.length < 2) continue;
+    const re = new RegExp(`(${tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    escaped = escaped.replace(re, '<mark>$1</mark>');
+  }
+  return escaped;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  await handleSearch(qInput.value.trim());
+});
+
+// chip 클릭 시 빠른 검색
+document.querySelectorAll('.quick-chip').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const q = btn.dataset.q;
+    qInput.value = q;
+    await handleSearch(q);
+  });
+});
+
+async function handleSearch(q) {
+  if (!q) return;
+  qInput.value = '';
+  sendBtn.disabled = true;
+  addUser(q);
+  await LOADING;
+
+  // 1) 정규화: 오타 + 동의어 + 환자표현 + 외래어 + 부정 + 복수부위 + 시간 (Sprint 7~8)
+  const norm = normalizeQuery(q);
+  // 2) Red Flag 감지
+  const redFlag = detectRedFlag(norm.normalized);
+  // 3) 약물 상호작용 감지
+  const drugHit = detectDrugInteraction(norm.normalized);
+  // 4) 의도 분류
+  const intents = classifyIntent(norm.normalized);
+  // 4b) Sprint 8 W7 — 약물 비교 감지
+  const drugCompare = detectDrugComparison(norm.normalized);
+  // 4c) Sprint 8 W8 — 운동 금기 감지
+  const exerciseContraindication = detectExerciseContraindication(norm.normalized, intents);
+  // 4d) Sprint 13 W4 — 인구학 맥락 감지 (위험인자 정보 카드)
+  const demographic = detectDemographicContext(norm.normalized);
+  // 4e) Sprint 14 — 운동 카탈로그 감지 (운동명별 부위·금기 카드)
+  const exerciseCatalog = detectExerciseCatalog(norm.normalized);
+  // 4e) Sprint 14 Step 3 — 운동 일반 카탈로그
+  const exerciseCatalog = detectExerciseCatalog(norm.normalized);
+
+  // 5) 확장 쿼리로 검색 (원본 + 확장 토큰 모두 + 시간 단계)
+  const enrichedQuery = norm.normalized + ' ' + norm.expansions.join(' ');
+  const qTokens = tokenize(enrichedQuery);
+  const negatedCats = (norm.negated || []).map(n => n.category);
+  // Sprint 13 — Red Flag 트리거 또는 응급 키워드 감지 시 응급 청크 부스트
+  const redFlagActive = !!redFlag || detectEmergency(qTokens, enrichedQuery);
+  const results = search(enrichedQuery, 5, negatedCats, norm.timeStage, norm.normalized, redFlagActive);
+
+  // 6) 의도별 결과 분류
+  const byIntent = classifyResults(results, intents);
+
+  addBot({
+    query: q,
+    normalized: norm.normalized,
+    typos: norm.typos,
+    expansions: norm.expansions,
+    negated: norm.negated,
+    compoundParts: norm.compoundParts,
+    patientPhrases: norm.patientPhrases,
+    loanwords: norm.loanwords,
+    timeStage: norm.timeStage,
+    drugCompare,
+    exerciseContraindication,
+    demographic,
+    exerciseCatalog,
+    exerciseCatalog,
+    redFlag,
+    drugHit,
+    intents,
+    results,
+    byIntent,
+    qTokens,
+  });
+  sendBtn.disabled = false;
+  qInput.focus();
+}
+
+// ─── 결과를 의도 카드로 분류 ────────────────────────────────────
+function classifyResults(results, intents) {
+  const buckets = { diagnosis: [], emergency: [], drug: [], exercise: [], surgery: [], etc: [] };
+  for (const r of results) {
+    const h = (r.chunk.heading || '').toLowerCase();
+    if (/red\s*flag|자가\s*체크|응급|마미|kanavel/i.test(r.chunk.heading)) {
+      buckets.emergency.push(r);
+    } else if (/^(1\.|1\s|흔한|감별|증상)/i.test(r.chunk.heading)) {
+      buckets.diagnosis.push(r);
+    } else if (/약|otc|nsaid|상호작용|주사/i.test(h)) {
+      buckets.drug.push(r);
+    } else if (/단계|운동|스트레칭|재활|물리치료/i.test(r.chunk.heading)) {
+      buckets.exercise.push(r);
+    } else if (/^5\.|수술|치환|봉합|관절경|의뢰/i.test(r.chunk.heading)) {
+      buckets.surgery.push(r);
+    } else {
+      buckets.etc.push(r);
+    }
+  }
+  return buckets;
+}
+
+qInput.focus();
+</script>
+</body>
+</html>

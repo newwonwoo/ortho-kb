@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img"
+     aria-label="Mini Squat (0~45°) — 부분 스쿼트 · 무릎 3단계 근력">
+  <title>Mini Squat (0~45°) — 부분 스쿼트 · 무릎 3단계 근력</title>
+  <rect width="320" height="320" fill="#fafafa"/>
+  <line x1="20" y1="290" x2="300" y2="290" stroke="#9ca3af" stroke-width="2"/>
+  <text x="160" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1f2937">
+    Mini Squat (0~45°)
+  </text>
+  <text x="160" y="46" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#666">
+    부분 스쿼트 · 무릎 3단계 근력
+  </text>
+
+  <!-- 서 있는 자세, 무릎 살짝 굽힘 -->
+  <circle cx="160" cy="80" r="16" fill="none" stroke="#1f2937" stroke-width="3"/>
+  <!-- 몸통 (살짝 앞으로) -->
+  <line x1="160" y1="96" x2="175" y2="180" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+  <!-- 골반에서 양다리 (45도 굽힘) -->
+  <line x1="175" y1="180" x2="140" y2="220" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <line x1="140" y1="220" x2="145" y2="285" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <line x1="175" y1="180" x2="210" y2="220" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <line x1="210" y1="220" x2="205" y2="285" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="140" cy="220" r="5" fill="#2563eb"/>
+  <circle cx="210" cy="220" r="5" fill="#2563eb"/>
+  <!-- 팔 (앞으로 뻗음 균형) -->
+  <line x1="167" y1="118" x2="230" y2="115" stroke="#1f2937" stroke-width="3" stroke-linecap="round"/>
+  <!-- 하강·상승 화살표 -->
+  <path d="M 100 150 Q 90 200 100 250" fill="none" stroke="#dc2626" stroke-width="2"/>
+  <polygon points="100,250 95,243 105,243" fill="#dc2626"/>
+  <polygon points="100,150 95,157 105,157" fill="#dc2626"/>
+  <text x="100" y="270" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#dc2626">↕</text>
+
+  <text x="160" y="312" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">
+    통증 없는 범위 5초 하강·5초 상승 × 10회 × 3세트
+  </text>
+</svg>

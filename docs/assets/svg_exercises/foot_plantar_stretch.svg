@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img"
+     aria-label="Plantar Fascia Stretch (Towel) — 족저근막 수건 당김 · 발바닥 1단계">
+  <title>Plantar Fascia Stretch (Towel) — 족저근막 수건 당김 · 발바닥 1단계</title>
+  <rect width="320" height="320" fill="#fafafa"/>
+  <line x1="20" y1="290" x2="300" y2="290" stroke="#9ca3af" stroke-width="2"/>
+  <text x="160" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="bold" fill="#1f2937">
+    Plantar Fascia Stretch (Towel)
+  </text>
+  <text x="160" y="46" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#666">
+    족저근막 수건 당김 · 발바닥 1단계
+  </text>
+
+  <!-- 앉은 자세 -->
+  <circle cx="60" cy="100" r="14" fill="none" stroke="#1f2937" stroke-width="3"/>
+  <line x1="60" y1="114" x2="60" y2="180" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+  <!-- 다리 펴짐 (긴 의자나 바닥) -->
+  <line x1="60" y1="180" x2="220" y2="180" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <!-- 발 (당겨진 발등굽힘 상태) -->
+  <line x1="220" y1="180" x2="225" y2="155" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+  <!-- 수건 -->
+  <path d="M 225 155 Q 200 130 130 110" fill="none" stroke="#fbbf24" stroke-width="4"/>
+  <!-- 손 -->
+  <circle cx="130" cy="110" r="6" fill="#2563eb"/>
+  <!-- 당김 방향 -->
+  <path d="M 130 125 Q 115 140 90 145" fill="none" stroke="#dc2626" stroke-width="2"/>
+  <polygon points="90,145 98,140 96,150" fill="#dc2626"/>
+  <text x="130" y="158" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#dc2626" font-weight="bold">당김</text>
+  <text x="160" y="220" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#666">수건으로 발바닥 감아 몸쪽으로</text>
+
+  <text x="160" y="312" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#666">
+    발등굽힘 자세로 30초 × 5회 × 3세트
+  </text>
+</svg>

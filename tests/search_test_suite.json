@@ -1,0 +1,1137 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "ortho-kb 검색 회귀 테스트 스위트 100개.",
+    "categories": [
+      "basic_part",
+      "loanwords",
+      "patient_phrases",
+      "synonyms",
+      "emergency",
+      "drug",
+      "exercise",
+      "negation",
+      "compound",
+      "time"
+    ],
+    "schema": {
+      "id": "T-001 등 고유 ID",
+      "category": "위 카테고리 중 하나",
+      "query": "사용자 입력",
+      "expected": {
+        "slug": "감지되어야 할 부위 (또는 null)",
+        "emergency": "응급 카드 노출 여부 (true/false/null=무시)",
+        "time_stage": "acute/subacute/chronic/trauma (또는 null=무시)",
+        "drug_compare": "약물 비교 카드 노출 여부 (true/false/null=무시)",
+        "ex_contra": "운동 금기 카드 노출 여부 (true/false/null=무시)",
+        "top1_slug": "1위 결과의 slug (또는 null=무시)",
+        "top1_heading_contains": "1위 결과 heading에 포함되어야 할 문자열 (또는 null=무시)",
+        "top1_category": "1위 결과 카테고리 (또는 null=무시)",
+        "any_result_heading_contains": "결과 중 어떤 청크의 heading에 포함되어야 할 문자열 배열 (모두 만족) (또는 null=무시)",
+        "negated_categories": "부정 카테고리 배열 (또는 null=무시)"
+      }
+    }
+  },
+  "tests": [
+    {
+      "id": "T-001",
+      "category": "basic_part",
+      "query": "어깨 통증",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "T-002",
+      "category": "basic_part",
+      "query": "무릎이 아파요",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-003",
+      "category": "basic_part",
+      "query": "발목 통증",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "불안정성"
+        ]
+      }
+    },
+    {
+      "id": "T-004",
+      "category": "basic_part",
+      "query": "발바닥 통증",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "족저근막염"
+        ]
+      }
+    },
+    {
+      "id": "T-005",
+      "category": "basic_part",
+      "query": "손목 통증",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "T-006",
+      "category": "basic_part",
+      "query": "허리 통증",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "T-007",
+      "category": "basic_part",
+      "query": "회전근개 파열",
+      "expected": {
+        "slug": "shoulder",
+        "top1_heading_contains": "회전근개",
+        "any_result_heading_contains": [
+          "회전근개"
+        ]
+      }
+    },
+    {
+      "id": "T-008",
+      "category": "basic_part",
+      "query": "반월상연골 손상",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "반월상연골"
+        ]
+      }
+    },
+    {
+      "id": "T-009",
+      "category": "basic_part",
+      "query": "수근관 증후군",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "수근관"
+        ]
+      }
+    },
+    {
+      "id": "T-010",
+      "category": "basic_part",
+      "query": "추간판 탈출증",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "T-011",
+      "category": "loanwords",
+      "query": "러너스니",
+      "expected": {
+        "slug": "knee",
+        "top1_heading_contains": "PFPS",
+        "any_result_heading_contains": [
+          "슬개대퇴통증증후군"
+        ]
+      }
+    },
+    {
+      "id": "T-012",
+      "category": "loanwords",
+      "query": "프로즌숄더",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "동결견"
+        ]
+      }
+    },
+    {
+      "id": "T-013",
+      "category": "loanwords",
+      "query": "오십견",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "동결견"
+        ]
+      }
+    },
+    {
+      "id": "T-014",
+      "category": "loanwords",
+      "query": "임핀지먼트",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "충돌증후군"
+        ]
+      }
+    },
+    {
+      "id": "T-015",
+      "category": "loanwords",
+      "query": "메니스커스",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "반월상연골"
+        ]
+      }
+    },
+    {
+      "id": "T-016",
+      "category": "loanwords",
+      "query": "sciatica",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "T-017",
+      "category": "loanwords",
+      "query": "plantar fasciitis",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "족저근막염"
+        ]
+      }
+    },
+    {
+      "id": "T-018",
+      "category": "loanwords",
+      "query": "carpal tunnel",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "수근관"
+        ]
+      }
+    },
+    {
+      "id": "T-019",
+      "category": "loanwords",
+      "query": "frozen shoulder",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "유착성"
+        ]
+      }
+    },
+    {
+      "id": "T-020",
+      "category": "loanwords",
+      "query": "achilles tendon",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "아킬레스"
+        ]
+      }
+    },
+    {
+      "id": "T-021",
+      "category": "patient_phrases",
+      "query": "팔이 안 올라가요",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "회전근개"
+        ]
+      }
+    },
+    {
+      "id": "T-022",
+      "category": "patient_phrases",
+      "query": "어깨가 굳어서 빗질이 안돼요",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "유착성"
+        ]
+      }
+    },
+    {
+      "id": "T-023",
+      "category": "patient_phrases",
+      "query": "무릎이 시려요",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "슬관절"
+        ]
+      }
+    },
+    {
+      "id": "T-024",
+      "category": "patient_phrases",
+      "query": "발목이 자주 꺾여요",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "재건술"
+        ]
+      }
+    },
+    {
+      "id": "T-025",
+      "category": "patient_phrases",
+      "query": "아침에 발이 아파요",
+      "expected": {
+        "slug": "foot",
+        "any_result_heading_contains": [
+          "족저근막염"
+        ]
+      }
+    },
+    {
+      "id": "T-026",
+      "category": "patient_phrases",
+      "query": "손이 저려요",
+      "expected": {
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "수근관"
+        ]
+      }
+    },
+    {
+      "id": "T-027",
+      "category": "patient_phrases",
+      "query": "엄지가 아파요",
+      "expected": {
+        "slug": "finger",
+        "any_result_heading_contains": [
+          "엄지"
+        ]
+      }
+    },
+    {
+      "id": "T-028",
+      "category": "patient_phrases",
+      "query": "허리에서 다리까지 저려요",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "T-029",
+      "category": "patient_phrases",
+      "query": "오래 서있으면 다리가 무거워요",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "척추관"
+        ]
+      }
+    },
+    {
+      "id": "T-030",
+      "category": "patient_phrases",
+      "query": "걸으면 다리가 저려요",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "척추관"
+        ]
+      }
+    },
+    {
+      "id": "T-031",
+      "category": "synonyms",
+      "query": "어깨 결림",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "T-032",
+      "category": "synonyms",
+      "query": "어깨 뻐근",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "T-033",
+      "category": "synonyms",
+      "query": "디스크 통증",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "T-034",
+      "category": "synonyms",
+      "query": "디스크 헤르니아",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "T-035",
+      "category": "synonyms",
+      "query": "퇴행성 관절염",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "슬관절"
+        ]
+      }
+    },
+    {
+      "id": "T-036",
+      "category": "synonyms",
+      "query": "관절 닳음",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "결정성"
+        ]
+      }
+    },
+    {
+      "id": "T-037",
+      "category": "synonyms",
+      "query": "발목 삠",
+      "expected": {
+        "slug": "ankle"
+      }
+    },
+    {
+      "id": "T-038",
+      "category": "synonyms",
+      "query": "접질림",
+      "expected": {
+        "slug": "ankle"
+      }
+    },
+    {
+      "id": "T-039",
+      "category": "synonyms",
+      "query": "야간통",
+      "expected": {
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-040",
+      "category": "synonyms",
+      "query": "자다 깨는 통증",
+      "expected": {
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-041",
+      "category": "emergency",
+      "query": "마미증후군",
+      "expected": {
+        "emergency": true,
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "마미"
+        ]
+      }
+    },
+    {
+      "id": "T-042",
+      "category": "emergency",
+      "query": "대소변 장애 동반",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "마미증후군"
+        ]
+      }
+    },
+    {
+      "id": "T-043",
+      "category": "emergency",
+      "query": "회음부 감각 저하",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-044",
+      "category": "emergency",
+      "query": "양쪽 다리 마비",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "마미증후군"
+        ]
+      }
+    },
+    {
+      "id": "T-045",
+      "category": "emergency",
+      "query": "Kanavel 4징후",
+      "expected": {
+        "slug": "finger",
+        "emergency": true
+      }
+    },
+    {
+      "id": "T-046",
+      "category": "emergency",
+      "query": "종아리에서 뚝 소리",
+      "expected": {
+        "slug": "calf",
+        "emergency": true
+      }
+    },
+    {
+      "id": "T-047",
+      "category": "emergency",
+      "query": "발열 관절 부종",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-048",
+      "category": "emergency",
+      "query": "무릎이 안 펴져요",
+      "expected": {
+        "emergency": true,
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-049",
+      "category": "emergency",
+      "query": "어깨 흉통 호흡곤란",
+      "expected": {
+        "emergency": true,
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-050",
+      "category": "emergency",
+      "query": "외상 후 다리 변형",
+      "expected": {
+        "emergency": true,
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-051",
+      "category": "drug",
+      "query": "이부프로펜 와파린 같이",
+      "expected": {
+        "any_result_heading_contains": [
+          "OTC"
+        ]
+      }
+    },
+    {
+      "id": "T-052",
+      "category": "drug",
+      "query": "타이레놀 vs 부루펜",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "T-053",
+      "category": "drug",
+      "query": "이부프로펜이랑 나프록센 차이",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "T-054",
+      "category": "drug",
+      "query": "셀레콕시브 이부프로펜 비교",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "T-055",
+      "category": "drug",
+      "query": "트라마돌 이부프로펜 차이",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "약물"
+        ]
+      }
+    },
+    {
+      "id": "T-056",
+      "category": "drug",
+      "query": "국소 NSAID 경구 NSAID 비교",
+      "expected": {
+        "drug_compare": true,
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "T-057",
+      "category": "drug",
+      "query": "아세트아미노펜 용량",
+      "expected": {
+        "any_result_heading_contains": [
+          "일반의약품"
+        ]
+      }
+    },
+    {
+      "id": "T-058",
+      "category": "drug",
+      "query": "NSAID 위장 보호",
+      "expected": {
+        "any_result_heading_contains": [
+          "OTC"
+        ]
+      }
+    },
+    {
+      "id": "T-059",
+      "category": "drug",
+      "query": "트라마돌 SSRI 같이",
+      "expected": {
+        "any_result_heading_contains": [
+          "상호작용"
+        ]
+      }
+    },
+    {
+      "id": "T-060",
+      "category": "drug",
+      "query": "스테로이드 주사",
+      "expected": {
+        "any_result_heading_contains": [
+          "주사"
+        ]
+      }
+    },
+    {
+      "id": "T-061",
+      "category": "exercise",
+      "query": "허리 디스크 환자가 스쿼트 해도 돼?",
+      "expected": {
+        "ex_contra": true,
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "T-062",
+      "category": "exercise",
+      "query": "협착증 운동 금기",
+      "expected": {
+        "ex_contra": true,
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "척추관"
+        ]
+      }
+    },
+    {
+      "id": "T-063",
+      "category": "exercise",
+      "query": "회전근개 파열 운동",
+      "expected": {
+        "ex_contra": true,
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "회전근개"
+        ]
+      }
+    },
+    {
+      "id": "T-064",
+      "category": "exercise",
+      "query": "ACL 재건 후 운동",
+      "expected": {
+        "ex_contra": true,
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "전방십자인대"
+        ]
+      }
+    },
+    {
+      "id": "T-065",
+      "category": "exercise",
+      "query": "수근관 증후군 스트레칭",
+      "expected": {
+        "ex_contra": true,
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "수근관"
+        ]
+      }
+    },
+    {
+      "id": "T-066",
+      "category": "exercise",
+      "query": "데드버그 운동",
+      "expected": {
+        "slug": "lowback"
+      }
+    },
+    {
+      "id": "T-067",
+      "category": "exercise",
+      "query": "Codman pendulum",
+      "expected": {
+        "slug": "shoulder",
+        "top1_heading_contains": "진자운동",
+        "any_result_heading_contains": [
+          "진자운동"
+        ]
+      }
+    },
+    {
+      "id": "T-068",
+      "category": "exercise",
+      "query": "무릎 슬개대퇴 운동",
+      "expected": {
+        "slug": "knee"
+      }
+    },
+    {
+      "id": "T-069",
+      "category": "exercise",
+      "query": "발목 알파벳 운동",
+      "expected": {
+        "slug": "ankle",
+        "any_result_heading_contains": [
+          "급성기"
+        ]
+      }
+    },
+    {
+      "id": "T-070",
+      "category": "exercise",
+      "query": "허리 코어 강화",
+      "expected": {
+        "slug": "lowback",
+        "any_result_heading_contains": [
+          "코어"
+        ]
+      }
+    },
+    {
+      "id": "T-071",
+      "category": "negation",
+      "query": "허리 디스크 수술 말고 다른 방법",
+      "expected": {
+        "slug": "lowback",
+        "negated_categories": [
+          "surgery"
+        ],
+        "any_result_heading_contains": [
+          "추간판"
+        ]
+      }
+    },
+    {
+      "id": "T-072",
+      "category": "negation",
+      "query": "무릎 약 없이 운동만으로",
+      "expected": {
+        "slug": "knee",
+        "negated_categories": [
+          "medication"
+        ],
+        "any_result_heading_contains": [
+          "급성기"
+        ]
+      }
+    },
+    {
+      "id": "T-073",
+      "category": "negation",
+      "query": "어깨 회전근개 수술 없이",
+      "expected": {
+        "slug": "shoulder",
+        "negated_categories": [
+          "surgery"
+        ],
+        "any_result_heading_contains": [
+          "회전근개"
+        ]
+      }
+    },
+    {
+      "id": "T-074",
+      "category": "negation",
+      "query": "주사 말고 보존치료",
+      "expected": {
+        "negated_categories": [
+          "medication"
+        ]
+      }
+    },
+    {
+      "id": "T-075",
+      "category": "negation",
+      "query": "병원 안 가고 자가 치료",
+      "expected": {
+        "negated_categories": [
+          "diagnosis"
+        ],
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-076",
+      "category": "negation",
+      "query": "수술 빼고 옵션",
+      "expected": {
+        "negated_categories": [
+          "surgery"
+        ]
+      }
+    },
+    {
+      "id": "T-077",
+      "category": "negation",
+      "query": "수술 싫어요 다른 방법",
+      "expected": {
+        "negated_categories": [
+          "surgery"
+        ]
+      }
+    },
+    {
+      "id": "T-078",
+      "category": "negation",
+      "query": "운동 말고 약물만",
+      "expected": {
+        "negated_categories": [
+          "exercise"
+        ],
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-079",
+      "category": "negation",
+      "query": "처방 없이 자가관리",
+      "expected": {
+        "negated_categories": [
+          "medication"
+        ]
+      }
+    },
+    {
+      "id": "T-080",
+      "category": "negation",
+      "query": "주사 싫고 약만",
+      "expected": {
+        "negated_categories": [
+          "medication"
+        ]
+      }
+    },
+    {
+      "id": "T-081",
+      "category": "compound",
+      "query": "어깨도 아프고 목도 뻐근해요",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "T-082",
+      "category": "compound",
+      "query": "무릎이랑 고관절 같이 아파요",
+      "expected": {
+        "any_result_heading_contains": [
+          "고관절"
+        ]
+      }
+    },
+    {
+      "id": "T-083",
+      "category": "compound",
+      "query": "허리랑 엉덩이 통증",
+      "expected": {
+        "any_result_heading_contains": [
+          "고관절"
+        ]
+      }
+    },
+    {
+      "id": "T-084",
+      "category": "compound",
+      "query": "어깨 등 둘 다 아프",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "T-085",
+      "category": "compound",
+      "query": "손목 팔꿈치 통증",
+      "expected": {
+        "any_result_heading_contains": [
+          "팔꿈치"
+        ]
+      }
+    },
+    {
+      "id": "T-086",
+      "category": "compound",
+      "query": "무릎 발목 동시에",
+      "expected": {
+        "slug": "knee",
+        "any_result_heading_contains": [
+          "풀세트"
+        ]
+      }
+    },
+    {
+      "id": "T-087",
+      "category": "compound",
+      "query": "어깨 목 뒷목",
+      "expected": {
+        "slug": "shoulder",
+        "any_result_heading_contains": [
+          "처방약"
+        ]
+      }
+    },
+    {
+      "id": "T-088",
+      "category": "compound",
+      "query": "허리 골반 통증",
+      "expected": {
+        "any_result_heading_contains": [
+          "골반"
+        ]
+      }
+    },
+    {
+      "id": "T-089",
+      "category": "compound",
+      "query": "무릎 엉덩이",
+      "expected": {
+        "any_result_heading_contains": [
+          "신경통"
+        ]
+      }
+    },
+    {
+      "id": "T-090",
+      "category": "compound",
+      "query": "팔꿈치 손목 둘 다",
+      "expected": {
+        "any_result_heading_contains": [
+          "팔꿈치"
+        ]
+      }
+    },
+    {
+      "id": "T-091",
+      "category": "time",
+      "query": "어제 무릎을 다쳤어요",
+      "expected": {
+        "slug": "knee",
+        "time_stage": "trauma",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-092",
+      "category": "time",
+      "query": "3일째 어깨가 아파요",
+      "expected": {
+        "slug": "shoulder",
+        "time_stage": "acute",
+        "any_result_heading_contains": [
+          "급성기"
+        ]
+      }
+    },
+    {
+      "id": "T-093",
+      "category": "time",
+      "query": "5일째 발목이 부어요",
+      "expected": {
+        "slug": "ankle",
+        "time_stage": "acute",
+        "any_result_heading_contains": [
+          "불안정성"
+        ]
+      }
+    },
+    {
+      "id": "T-094",
+      "category": "time",
+      "query": "3주째 손목이 아파요",
+      "expected": {
+        "slug": "wrist",
+        "time_stage": "subacute",
+        "any_result_heading_contains": [
+          "수근관"
+        ]
+      }
+    },
+    {
+      "id": "T-095",
+      "category": "time",
+      "query": "한달째 무릎 통증",
+      "expected": {
+        "slug": "knee",
+        "time_stage": "subacute",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "T-096",
+      "category": "time",
+      "query": "허리 3개월째 아파요",
+      "expected": {
+        "slug": "lowback",
+        "time_stage": "chronic",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "T-097",
+      "category": "time",
+      "query": "오래된 어깨 통증",
+      "expected": {
+        "slug": "shoulder",
+        "time_stage": "chronic",
+        "any_result_heading_contains": [
+          "감별진단표"
+        ]
+      }
+    },
+    {
+      "id": "T-098",
+      "category": "time",
+      "query": "넘어지면서 손목을 짚었어요",
+      "expected": {
+        "time_stage": "trauma",
+        "slug": "wrist",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-099",
+      "category": "time",
+      "query": "운동하다 다친 무릎",
+      "expected": {
+        "slug": "knee",
+        "time_stage": "trauma",
+        "any_result_heading_contains": [
+          "체크리스트"
+        ]
+      }
+    },
+    {
+      "id": "T-100",
+      "category": "time",
+      "query": "갑자기 허리가 안 펴져요",
+      "expected": {
+        "slug": "lowback",
+        "time_stage": "acute",
+        "any_result_heading_contains": [
+          "마미증후군"
+        ]
+      }
+    }
+  ]
+}

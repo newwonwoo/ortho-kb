@@ -2,82 +2,668 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ortho-kb · 정형외과 통증 위키 (어깨·무릎·발목·발바닥·손목·허리)</title>
-<meta name="description" content="어깨·무릎·발목·발바닥·손목·허리 통증의 진단과 치료(약물·물리치료·재활운동)를 정리한 정형외과 한국어 위키. 교육 목적이며 전문의 진료를 대체하지 않습니다.">
-<meta name="keywords" content="정형외과, 통증, 위키, 어깨 통증, 무릎 통증, 발목 통증, 발바닥 통증, 손목 통증, 허리 통증, 진단, 치료, 재활운동, 스트레칭">
-<link rel="canonical" href="https://newwonwoo.github.io/ortho-kb/">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>증상 안내 · ortho-kb</title>
+<meta name="description" content="대화형 정형외과 증상 안내. 어디가 아픈지 단계별로 선택하면 맞춤 정보를 안내합니다.">
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="ortho-kb · 정형외과 통증 위키">
-<meta property="og:description" content="6부위 정형외과 통증의 진단·치료·재활운동 위키">
-<meta property="og:url" content="https://newwonwoo.github.io/ortho-kb/">
-<meta property="og:site_name" content="ortho-kb">
-<meta property="og:locale" content="ko_KR">
-<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="../assets/style.css">
 
-<link rel="stylesheet" href="assets/style.css">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "ortho-kb",
-  "alternateName": "정형외과 증상 위키",
-  "url": "https://newwonwoo.github.io/ortho-kb/",
-  "inLanguage": "ko-KR",
-  "description": "어깨·무릎·발목·발바닥·손목·허리 통증의 진단과 치료를 정리한 한국어 정형외과 위키",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://newwonwoo.github.io/ortho-kb/search/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  background: #f5f7fa;
+  color: #1f2937;
+  min-height: 100vh;
 }
-</script>
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.app-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.app-header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+}
+.app-header .sub {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Progress */
+.progress {
+  display: flex;
+  gap: 6px;
+  padding: 12px 20px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+.progress-step {
+  flex: 1;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+.progress-step.active { background: #3b82f6; }
+.progress-step.completed { background: #10b981; }
+
+/* Question card */
+.question {
+  padding: 24px 20px;
+  flex: 1;
+}
+.question-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+.question-sub {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+/* Options */
+.options {
+  display: grid;
+  gap: 10px;
+}
+.options.grid-2 { grid-template-columns: 1fr 1fr; }
+.options.grid-1 { grid-template-columns: 1fr; }
+
+.option-btn {
+  width: 100%;
+  padding: 18px 16px;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+}
+.option-btn:hover { background: #f9fafb; border-color: #3b82f6; }
+.option-btn:active { transform: scale(0.98); }
+.option-btn .emoji {
+  font-size: 24px;
+  line-height: 1;
+}
+.option-btn .label {
+  flex: 1;
+}
+.option-btn .desc {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/* Footer / navigation */
+.app-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+  background: #fff;
+  display: flex;
+  gap: 8px;
+  position: sticky;
+  bottom: 0;
+}
+.btn-secondary {
+  flex: 1;
+  padding: 12px 16px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #6b7280;
+  cursor: pointer;
+}
+.btn-secondary:hover { background: #e5e7eb; }
+.btn-primary {
+  flex: 2;
+  padding: 12px 16px;
+  background: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+}
+.btn-primary:hover { background: #2563eb; }
+.btn-primary:disabled { background: #9ca3af; cursor: not-allowed; }
+
+/* Red Flag (urgent) banner */
+.red-flag-banner {
+  background: #fef2f2;
+  border: 2px solid #ef4444;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 20px;
+  text-align: center;
+}
+.red-flag-banner h3 {
+  margin: 0 0 8px 0;
+  color: #991b1b;
+  font-size: 16px;
+}
+.red-flag-banner p {
+  margin: 4px 0;
+  color: #7f1d1d;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.red-flag-banner .emergency-number {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 10px 20px;
+  background: #ef4444;
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+/* Disclaimer */
+.disclaimer {
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: center;
+  padding: 12px 20px;
+  line-height: 1.5;
+}
+
+/* Free input link */
+.free-input-link {
+  display: block;
+  text-align: center;
+  margin-top: 24px;
+  padding: 14px;
+  font-size: 13px;
+  color: #6b7280;
+  text-decoration: none;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+}
+.free-input-link:hover { color: #3b82f6; border-color: #3b82f6; }
+
+/* Selected display */
+.selected-summary {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #1e40af;
+}
+.selected-summary .label {
+  font-weight: 600;
+  margin-right: 6px;
+}
+</style>
 </head>
 <body>
-<header class="ortho-header">
-  <h1>ortho-kb · 정형외과 통증 위키</h1>
-  <div class="ortho-disclaimer">
-    ⚠️ 본 위키는 교육 목적입니다. 진단·처방을 대체하지 않습니다.
-    <a href="DISCLAIMER.html">전체 면책 조항 →</a>
+
+<div class="app">
+
+  <header class="app-header">
+    <h1>증상 안내</h1>
+    <div class="sub">ortho-kb · 정형외과 위키</div>
+  </header>
+
+  <div class="progress" id="progress">
+    <div class="progress-step active" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+    <div class="progress-step" data-step="4"></div>
   </div>
-</header>
-<main class="ortho-main">
-  <div style="margin: 1.5rem 0 2rem 0; padding: 24px; background: linear-gradient(135deg, #3b82f6, #1e40af); border-radius: 16px; color: white; text-align: center;">
-    <h2 style="margin:0 0 8px 0; color:white; border:none; font-size:22px;">💬 어디가 아프세요?</h2>
-    <p style="margin: 8px 0 16px 0; color: rgba(255,255,255,0.9); font-size: 14px;">
-      단계별로 선택하면 맞춤 안내를 드립니다 (3단계, 약 30초)
-    </p>
-    <a href="chat/" style="display:inline-block;padding:14px 32px;background:white;color:#1e40af;border-radius:10px;text-decoration:none;font-weight:700;font-size:16px;">
-      증상 안내 시작 →
-    </a>
-  </div>
-  <p style="margin: 1rem 0; text-align:center;">
-    <a href="search/" style="display:inline-block;padding:0.6rem 1rem;background:#f3f4f6;color:#374151;border-radius:8px;text-decoration:none;font-weight:500;font-size:14px;">🔍 또는 자유 검색 (전문가용)</a>
+
+  <main class="question" id="question-area">
+    <!-- 동적 렌더링 -->
+  </main>
+
+  <footer class="app-footer" id="footer-area" style="display:none;">
+    <button class="btn-secondary" id="btn-back">← 이전</button>
+    <button class="btn-primary" id="btn-next" disabled>다음 →</button>
+  </footer>
+
+  <p class="disclaimer">
+    본 도구는 일반 안내 목적이며 진료를 대체하지 않습니다.<br>
+    응급 증상이 있으시면 즉시 119 또는 응급실로 가세요.
   </p>
-  <h2>부위별 페이지</h2>
-  <ul class="ortho-body-list">
-    <li><a href="body/01_shoulder.html">어깨</a> <small>v0.1.0 · 2026-06-06</small></li>
-    <li><a href="body/02_knee.html">무릎</a> <small>v0.2.0 · 2026-06-06</small></li>
-    <li><a href="body/03_ankle.html">발목</a> <small>v0.2.0 · 2026-06-06</small></li>
-    <li><a href="body/04_foot.html">발바닥</a> <small>v0.2.0 · 2026-06-06</small></li>
-    <li><a href="body/05_wrist.html">손목</a> <small>v0.2.0 · 2026-06-06</small></li>
-    <li><a href="body/06_lowback.html">허리</a> <small>v0.2.0 · 2026-06-06</small></li>
-    <li><a href="body/07_exercise_general.html">운동 일반 — 카탈로그와 안전 원칙</a> <small>v0.1.0 · unknown</small></li>
-    <li><a href="body/08_neck.html">목 (경추)</a> <small>v0.1.0 · unknown</small></li>
-    <li><a href="body/09_thoracic.html">등 (흉추)</a> <small>v0.1.0 · unknown</small></li>
-    <li><a href="body/10_hip.html">고관절 (엉덩이)</a> <small>v0.1.0 · unknown</small></li>
-    <li><a href="body/11_headache.html">두통 (근막성·긴장형)</a> <small>v0.1.0 · unknown</small></li>
-    <li><a href="body/12_elbow.html">팔꿈치 (주관절)</a> <small>v0.1.0 · unknown</small></li>
-    <li><a href="body/13_calf.html">종아리 (하퇴부)</a> <small>v0.1.0 · unknown</small></li>
-    <li><a href="body/14_finger.html">손가락</a> <small>v0.1.0 · unknown</small></li>
-    <li><a href="body/15_sij.html">천장관절 (SI joint)</a> <small>v0.1.0 · unknown</small></li>
-  </ul>
-</main>
-<footer class="ortho-footer">
-  <a href="https://github.com/newwonwoo/ortho-kb">GitHub</a> ·
-  콘텐츠 CC BY-NC-SA 4.0 · 코드 MIT
-</footer>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────
+//  대화형 진단 어시스턴트
+//  단계별 선택값을 누적 → 마지막에 검색 페이지로 redirect
+// ─────────────────────────────────────────
+
+const STATE = {
+  step: 1,
+  bodyPart: null,    // 1단계
+  duration: null,    // 2단계
+  pattern: null,     // 2단계
+  intents: [],       // 3단계 — 다중 선택 (의도)
+  redFlags: [],      // 4단계
+};
+
+// 부위 정의 — 임상 분류 기준
+const BODY_PARTS = [
+  { id: 'shoulder', emoji: '💪', label: '어깨', desc: '오십견·회전근개·임핀지먼트' },
+  { id: 'neck',     emoji: '🦒', label: '목 (경추)', desc: '거북목·디스크·근막통' },
+  { id: 'thoracic', emoji: '🧍', label: '등 (흉추)', desc: '자세성·압박골절·근막통' },
+  { id: 'lowback',  emoji: '🪑', label: '허리', desc: '디스크·협착증·요통' },
+  { id: 'hip',      emoji: '🦵', label: '엉덩이·고관절', desc: '고관절염·골절·점액낭염' },
+  { id: 'sij',      emoji: '🦴', label: '천장관절·골반', desc: '천장관절통·임신 골반통' },
+  { id: 'knee',     emoji: '🦿', label: '무릎', desc: 'ACL·반월상·OA·PFPS' },
+  { id: 'calf',     emoji: '🦵', label: '종아리·정강이', desc: 'DVT·아킬레스·신스플린트' },
+  { id: 'ankle',    emoji: '👣', label: '발목', desc: '염좌·CAI·PTOA·아킬레스' },
+  { id: 'foot',     emoji: '🦶', label: '발바닥·발', desc: '족저근막염·무지외반·모턴' },
+  { id: 'elbow',    emoji: '💪', label: '팔꿈치', desc: '테니스·골프엘보·척골신경' },
+  { id: 'wrist',    emoji: '✋', label: '손목', desc: 'CTS·드퀘르벵·TFCC' },
+  { id: 'finger',   emoji: '👆', label: '손가락', desc: '방아쇠수지·OA·RA' },
+  { id: 'headache', emoji: '🧠', label: '두통 (근막성)', desc: '긴장형·자세성·후두신경통' },
+  { id: 'unknown',  emoji: '❓', label: '여러 곳·잘 모르겠어요', desc: '자유 입력으로 안내' },
+];
+
+const DURATIONS = [
+  { id: 'acute', emoji: '⚡', label: '오늘~3일', desc: '급성기 (외상·갑작스러운 통증)' },
+  { id: 'subacute', emoji: '📅', label: '1주~1개월', desc: '아급성기' },
+  { id: 'chronic', emoji: '🕰️', label: '3개월 이상', desc: '만성' },
+  { id: 'recurring', emoji: '🔄', label: '반복적으로 재발', desc: '여러 번 같은 부위 통증' },
+];
+
+const PATTERNS = [
+  { id: 'rest', emoji: '🛌', label: '쉴 때도 아파요', desc: '휴식 시 통증·야간통' },
+  { id: 'activity', emoji: '🏃', label: '움직일 때만 아파요', desc: '활동 시 악화·휴식 시 호전' },
+  { id: 'morning', emoji: '🌅', label: '아침에 굳어요', desc: '아침 강직 (류마티스·강직성)' },
+  { id: 'specific', emoji: '🎯', label: '특정 자세에서만', desc: '굽힐 때·들 때·돌릴 때' },
+  { id: 'numb', emoji: '⚡', label: '저리고 찌릿해요', desc: '신경학적 증상' },
+];
+
+// 3단계 — 알고 싶은 정보 (다중 선택)
+const INTENTS = [
+  { id: 'diagnosis', emoji: '🩺', label: '의심 질환·진단·원인', desc: '어떤 질환일 가능성이 있는지' },
+  { id: 'drug',      emoji: '💊', label: '약물·주사 정보',       desc: 'NSAID·진통제·스테로이드 주사' },
+  { id: 'exercise',  emoji: '🏃', label: '운동·재활·스트레칭',  desc: '집에서 할 수 있는 운동 + YouTube 영상' },
+  { id: 'surgery',   emoji: '🔪', label: '수술·시술 정보',       desc: '수술 적응증·옵션·합병증' },
+  { id: 'emergency', emoji: '🚨', label: '응급 신호 (안전 점검)', desc: '꼭 봐야 할 응급 가능성' },
+];
+
+// 4단계 Red Flag 자가체크 (응급 신호)
+const RED_FLAGS = [
+  { id: 'trauma_recent', label: '최근 외상 (낙상·교통사고·격한 충격)', urgent: true, advice: '외상 직후 변형·체중부하 불가 시 즉시 응급실' },
+  { id: 'fever', label: '발열·오한 동반', urgent: true, advice: '발열 + 척추 통증은 감염성 척추염 가능 — 즉시 응급실' },
+  { id: 'night_pain', label: '잠을 깨우는 야간통', urgent: false, advice: '진통제 무반응 + 체중감소 동반 시 종양 감별 필요' },
+  { id: 'progressive_weakness', label: '진행성 근력 약화 (단추·젓가락질·보행)', urgent: true, advice: '진행성 신경 손상 — 즉시 정형외과·신경외과' },
+  { id: 'unilateral_swelling', label: '한쪽 다리·종아리 갑작스러운 부종·열감', urgent: true, advice: 'DVT 의심 — 즉시 응급실. 호흡곤란 동반 시 119' },
+  { id: 'severe_headache', label: '인생 최악의 두통 / 갑작스런 심한 두통', urgent: true, advice: 'SAH 의심 — 즉시 119' },
+  { id: 'chest_radiation', label: '가슴·왼팔·턱으로 방사 + 식은땀', urgent: true, advice: '심근경색 의심 — 즉시 119' },
+  { id: 'cancer_history', label: '암 병력 + 새로운 통증', urgent: false, advice: '전이성 병변 감별 필요 — 진료 권고' },
+  { id: 'none', label: '해당 사항 없음', urgent: false, advice: '' },
+];
+
+// ─────────────────────────────────────────
+//  렌더링
+// ─────────────────────────────────────────
+
+const $ = (id) => document.getElementById(id);
+const qArea = $('question-area');
+const footer = $('footer-area');
+const progress = $('progress');
+
+function render() {
+  updateProgress();
+  if (STATE.step === 1) renderStep1();
+  else if (STATE.step === 2) renderStep2();
+  else if (STATE.step === 3) renderStep3Intents();
+  else if (STATE.step === 4) renderStep4RedFlags();
+  else if (STATE.step === 5) goToResults();
+}
+
+function updateProgress() {
+  progress.querySelectorAll('.progress-step').forEach((el, i) => {
+    el.classList.remove('active', 'completed');
+    if (i + 1 < STATE.step) el.classList.add('completed');
+    else if (i + 1 === STATE.step) el.classList.add('active');
+  });
+}
+
+function renderStep1() {
+  footer.style.display = 'none';
+  qArea.innerHTML = `
+    <h2 class="question-title">어디가 불편하신가요?</h2>
+    <p class="question-sub">가장 많이 아픈 부위를 선택해주세요.</p>
+    <div class="options grid-1">
+      ${BODY_PARTS.map(p => `
+        <button class="option-btn" data-id="${p.id}">
+          <span class="emoji">${p.emoji}</span>
+          <span class="label">
+            ${p.label}
+            <div class="desc">${p.desc}</div>
+          </span>
+        </button>
+      `).join('')}
+    </div>
+    <a class="free-input-link" href="../search/">
+      정확한 증상을 직접 입력하기 (자유 검색) →
+    </a>
+  `;
+  qArea.querySelectorAll('.option-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      STATE.bodyPart = btn.dataset.id;
+      if (STATE.bodyPart === 'unknown') {
+        window.location.href = '../search/';
+        return;
+      }
+      STATE.step = 2;
+      render();
+    });
+  });
+}
+
+function renderStep2() {
+  footer.style.display = 'flex';
+  $('btn-next').disabled = !(STATE.duration && STATE.pattern);
+  $('btn-next').textContent = '다음 →';
+  $('btn-next').onclick = () => { STATE.step = 3; render(); };
+  $('btn-back').onclick = () => { STATE.step = 1; STATE.duration = null; STATE.pattern = null; render(); };
+
+  const part = BODY_PARTS.find(p => p.id === STATE.bodyPart);
+
+  qArea.innerHTML = `
+    <div class="selected-summary">
+      <span class="label">선택:</span>${part.emoji} ${part.label}
+    </div>
+    <h2 class="question-title">언제부터 / 어떤 양상인가요?</h2>
+    <p class="question-sub">통증 시작 시기와 양상을 모두 선택해주세요.</p>
+
+    <div style="margin-bottom: 20px;">
+      <div style="font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 8px;">⏱ 언제부터</div>
+      <div class="options grid-2" data-group="duration">
+        ${DURATIONS.map(d => `
+          <button class="option-btn" data-id="${d.id}" style="min-height:50px; padding:12px;">
+            <span class="emoji">${d.emoji}</span>
+            <span class="label" style="font-size:13px;">
+              ${d.label}
+              <div class="desc" style="font-size:11px;">${d.desc}</div>
+            </span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 8px;">🩺 어떤 양상</div>
+      <div class="options grid-1" data-group="pattern">
+        ${PATTERNS.map(p => `
+          <button class="option-btn" data-id="${p.id}" style="min-height:50px; padding:12px;">
+            <span class="emoji">${p.emoji}</span>
+            <span class="label" style="font-size:13px;">
+              ${p.label}
+              <div class="desc" style="font-size:11px;">${p.desc}</div>
+            </span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  function bindGroup(group, key) {
+    qArea.querySelectorAll(`[data-group="${group}"] .option-btn`).forEach(btn => {
+      btn.addEventListener('click', () => {
+        STATE[key] = btn.dataset.id;
+        qArea.querySelectorAll(`[data-group="${group}"] .option-btn`).forEach(b => {
+          b.style.background = '#fff';
+          b.style.borderColor = '#e5e7eb';
+        });
+        btn.style.background = '#eff6ff';
+        btn.style.borderColor = '#3b82f6';
+        $('btn-next').disabled = !(STATE.duration && STATE.pattern);
+      });
+    });
+  }
+  bindGroup('duration', 'duration');
+  bindGroup('pattern', 'pattern');
+}
+
+function renderStep3Intents() {
+  footer.style.display = 'flex';
+  $('btn-next').disabled = false;  // 의도는 0개여도 진행 가능 (전체 노출)
+  $('btn-next').textContent = '다음 →';
+  $('btn-next').onclick = () => { STATE.step = 4; render(); };
+  $('btn-back').onclick = () => { STATE.step = 2; STATE.intents = []; render(); };
+
+  const part = BODY_PARTS.find(p => p.id === STATE.bodyPart);
+
+  qArea.innerHTML = `
+    <div class="selected-summary">
+      <span class="label">선택:</span>${part.emoji} ${part.label}
+    </div>
+    <h2 class="question-title">무엇을 알고 싶으세요?</h2>
+    <p class="question-sub">필요한 정보를 <strong>여러 개</strong> 선택할 수 있습니다. (선택 안 하면 모두 표시)</p>
+
+    <div class="options grid-1" data-group="intents">
+      ${INTENTS.map(it => `
+        <button class="option-btn" data-id="${it.id}" style="min-height:56px; padding:14px;">
+          <span class="emoji">${it.emoji}</span>
+          <span class="label">
+            ${it.label}
+            <div class="desc">${it.desc}</div>
+          </span>
+        </button>
+      `).join('')}
+    </div>
+
+    <p style="font-size:11px; color:#9ca3af; margin-top:16px; text-align:center;">
+      💡 응급 신호는 안전상 항상 표시됩니다
+    </p>
+  `;
+
+  qArea.querySelectorAll('[data-group="intents"] .option-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      if (STATE.intents.includes(id)) {
+        STATE.intents = STATE.intents.filter(i => i !== id);
+        btn.style.background = '#fff';
+        btn.style.borderColor = '#e5e7eb';
+      } else {
+        STATE.intents.push(id);
+        btn.style.background = '#eff6ff';
+        btn.style.borderColor = '#3b82f6';
+      }
+      // 동적 버튼 텍스트
+      if (STATE.intents.length === 0) {
+        $('btn-next').textContent = '전체 보기 →';
+      } else {
+        $('btn-next').textContent = `다음 → (${STATE.intents.length}개 선택)`;
+      }
+    });
+  });
+}
+
+function renderStep4RedFlags() {
+  footer.style.display = 'flex';
+  $('btn-next').disabled = STATE.redFlags.length === 0;
+  $('btn-next').textContent = '결과 보기 →';
+  $('btn-next').onclick = () => checkAndGoToResults();
+  $('btn-back').onclick = () => { STATE.step = 3; STATE.redFlags = []; render(); };
+
+  qArea.innerHTML = `
+    <h2 class="question-title">동반 증상이 있나요?</h2>
+    <p class="question-sub">해당하는 항목을 모두 선택해주세요. <strong>응급 신호를 놓치지 않기 위함입니다.</strong></p>
+
+    <div class="options grid-1" data-group="redflags">
+      ${RED_FLAGS.map(rf => `
+        <button class="option-btn" data-id="${rf.id}" data-urgent="${rf.urgent}" style="min-height:50px; padding:14px;">
+          <span class="emoji">${rf.urgent ? '🚨' : (rf.id === 'none' ? '✅' : '⚠️')}</span>
+          <span class="label" style="font-size:14px;">
+            ${rf.label}
+          </span>
+        </button>
+      `).join('')}
+    </div>
+  `;
+
+  qArea.querySelectorAll('[data-group="redflags"] .option-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      if (id === 'none') {
+        STATE.redFlags = ['none'];
+        qArea.querySelectorAll('[data-group="redflags"] .option-btn').forEach(b => {
+          b.style.background = '#fff';
+          b.style.borderColor = '#e5e7eb';
+        });
+        btn.style.background = '#ecfdf5';
+        btn.style.borderColor = '#10b981';
+      } else {
+        // none 선택 해제
+        STATE.redFlags = STATE.redFlags.filter(r => r !== 'none');
+        const noneBtn = qArea.querySelector('[data-id="none"]');
+        if (noneBtn) {
+          noneBtn.style.background = '#fff';
+          noneBtn.style.borderColor = '#e5e7eb';
+        }
+        if (STATE.redFlags.includes(id)) {
+          STATE.redFlags = STATE.redFlags.filter(r => r !== id);
+          btn.style.background = '#fff';
+          btn.style.borderColor = '#e5e7eb';
+        } else {
+          STATE.redFlags.push(id);
+          btn.style.background = btn.dataset.urgent === 'true' ? '#fef2f2' : '#fefce8';
+          btn.style.borderColor = btn.dataset.urgent === 'true' ? '#ef4444' : '#eab308';
+        }
+      }
+      $('btn-next').disabled = STATE.redFlags.length === 0;
+    });
+  });
+}
+
+function checkAndGoToResults() {
+  // 응급 신호 있는지 확인 → 있으면 즉시 응급 안내 화면
+  const urgentFlags = STATE.redFlags
+    .filter(id => id !== 'none')
+    .map(id => RED_FLAGS.find(rf => rf.id === id))
+    .filter(rf => rf && rf.urgent);
+
+  if (urgentFlags.length > 0) {
+    showUrgentScreen(urgentFlags);
+  } else {
+    goToResults();
+  }
+}
+
+function showUrgentScreen(urgentFlags) {
+  footer.style.display = 'none';
+  progress.style.display = 'none';
+
+  const advices = urgentFlags.map(rf => `<p><strong>• ${rf.label}</strong><br>${rf.advice}</p>`).join('');
+
+  qArea.innerHTML = `
+    <div class="red-flag-banner">
+      <h3>🚨 응급 가능성이 있습니다</h3>
+      <p>선택하신 증상 중 다음 항목은 즉시 진료가 필요할 수 있습니다:</p>
+      <div style="margin-top:12px; text-align:left;">${advices}</div>
+      <a class="emergency-number" href="tel:119">📞 119 전화</a>
+    </div>
+    <div style="padding: 0 20px;">
+      <p style="font-size:13px; color:#6b7280; margin: 16px 0;">
+        본 도구는 진료를 대체하지 않으며, 응급 신호에 대한 안내일 뿐입니다.
+        애매하시면 가까운 정형외과·응급실로 가시는 것이 안전합니다.
+      </p>
+      <button class="btn-primary" style="width:100%;" onclick="goToResults()">
+        그래도 위키 정보를 보고 싶어요 →
+      </button>
+      <button class="btn-secondary" style="width:100%; margin-top:8px;" onclick="resetAll()">
+        처음부터 다시
+      </button>
+    </div>
+  `;
+}
+
+function goToResults() {
+  // STATE → query string 합성
+  const part = BODY_PARTS.find(p => p.id === STATE.bodyPart);
+  const duration = DURATIONS.find(d => d.id === STATE.duration);
+  const pattern = PATTERNS.find(p => p.id === STATE.pattern);
+
+  let q = part.label.replace(/[()]/g, '').trim();
+  if (duration) q += ' ' + duration.label;
+  if (pattern) q += ' ' + pattern.label;
+
+  // 응급 신호 키워드도 누적 (검색 엔진의 Red Flag 트리거 발동 유도)
+  STATE.redFlags.forEach(id => {
+    if (id === 'none') return;
+    const rf = RED_FLAGS.find(r => r.id === id);
+    if (rf) {
+      // 트리거 매칭을 위한 자연어 키워드 (간단히 라벨에서 발췌)
+      if (id === 'fever') q += ' 발열';
+      else if (id === 'trauma_recent') q += ' 외상 낙상';
+      else if (id === 'night_pain') q += ' 야간통';
+      else if (id === 'progressive_weakness') q += ' 진행성 근력 약화';
+      else if (id === 'unilateral_swelling') q += ' 한쪽 부종 열감';
+      else if (id === 'severe_headache') q += ' 인생 최악의 두통';
+      else if (id === 'chest_radiation') q += ' 가슴 식은땀 왼팔';
+      else if (id === 'cancer_history') q += ' 암 병력';
+    }
+  });
+
+  // 검색 페이지로 redirect with ?q= 및 ?intent=
+  const url = new URL('../search/', window.location.href);
+  url.searchParams.set('q', q.trim());
+  if (STATE.intents && STATE.intents.length > 0) {
+    url.searchParams.set('intent', STATE.intents.join(','));
+  }
+  window.location.href = url.toString();
+}
+
+function resetAll() {
+  STATE.step = 1;
+  STATE.bodyPart = null;
+  STATE.duration = null;
+  STATE.pattern = null;
+  STATE.intents = [];
+  STATE.redFlags = [];
+  progress.style.display = 'flex';
+  render();
+}
+
+// 초기 렌더
+render();
+</script>
+
 </body>
 </html>
